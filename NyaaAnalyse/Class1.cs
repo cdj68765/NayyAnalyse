@@ -50,7 +50,7 @@ namespace Cloudflare_Evader
                 var challenge_pass = Regex.Match(html, "name=\"pass\" value=\"(.+?)\"").Groups[1].Value;
 
                 var builder = Regex.Match(html, @"setTimeout\(function\(\){\s+(var t,r,a,f.+?\r?\n[\s\S]+?a\.value =.+?)\r?\n").Groups[1].Value;
-                builder = Regex.Replace(Resource1.String1, @"a\.value =(.+?) \+ .+?;", "$1");
+                builder = Regex.Replace(html, @"a\.value =(.+?) \+ .+?;", "$1");
                 builder = Regex.Replace(builder, @"\s{3,}[a-z](?: = |\.).+", "");
 
                 //Format the javascript..

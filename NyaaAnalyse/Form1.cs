@@ -8,47 +8,69 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HtmlAgilityPack;
-using System.Net;
-using Cloudflare_Evader;
-using NitinJS;
+using CloudFlareUtilities;
+using System.Net.Http;
 
 namespace NyaaAnalyse
 {
     public partial class Form1 : Form
     {
+        HttpClient client = new HttpClient(new ClearanceHandler());
+        HtmlAgilityPack.HtmlDocument HtmlDoc = new HtmlAgilityPack.HtmlDocument();
         public Form1()
         {
             InitializeComponent();
-            /*WebClient client = CloudflareEvader.CreateBypassedWebClient("https://sukebei.nyaa.si");
-            var c= client.DownloadData("https://sukebei.nyaa.si/");*/
-            /*CookieContainer cookies = new CookieContainer();
-            SmsWebClient client = new SmsWebClient(cookies);
-            string html = client.DownloadString("https://sukebei.nyaa.si/");*/
-            /* var Web = new HtmlWeb();
-             var HtmlDoc = new HtmlAgilityPack.HtmlDocument();
-             HtmlDoc.LoadHtml(Resource1.String2);
+            //HtmlDoc.LoadHtml(Resource1.Html);
+            /* HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
+             foreach (var item in hrefs2)
+             {
+                 var temp = HtmlNode.CreateNode(item.OuterHtml);
+                 var td = temp.SelectNodes(@"//td");
+                 var title = temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value;
+                 var Imgsrc = temp.SelectSingleNode("//img").Attributes["src"].Value;
+                 var Adress = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                 var name = temp.SelectSingleNode(@"//td[2]").InnerText;
+                 var Torrent = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                 var Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
+                 var Size = temp.SelectSingleNode(@"//td[4]").InnerHtml;
+                 var Time = temp.SelectSingleNode(@"//td[5]").InnerHtml;
+                 var Up= temp.SelectSingleNode(@"//td[6]").InnerHtml;
+                 var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
+                 var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
+             }*/
+            url = "https://sukebei.nyaa.si/?p=1";
+            go();
 
-              HtmlNodeCollection nodes = HtmlDoc.DocumentNode.SelectNodes("//p");
-              foreach (var item in nodes)
-              {
-                  Console.WriteLine(item);
-              }*/
-            var target = new Uri("https://sukebei.nyaa.si/");
-
-            var handler = new ClearanceHandler();
-
-            var client = new HttpClient(handler);
-
+        }
+        string url;
+        async void go()
+        {
             try
             {
-                var content = await client.GetStringAsync(new Uri("https://sukebei.nyaa.si/"));
-                txtUserAgent.Text = "Client/1.0";
-                txtCfduid.Text = handler.IDCookieValue;
-                txtCfClearance.Text = handler.ClearanceCookieValue;
+                var content = await client.GetStringAsync(url);
+                HtmlDoc.LoadHtml(content);
+                HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
+                foreach (var item in hrefs2)
+                {
+                    var temp = HtmlNode.CreateNode(item.OuterHtml);
+                    var td = temp.SelectNodes(@"//td");
+                    var title = temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value;
+                    var Imgsrc = temp.SelectSingleNode("//img").Attributes["src"].Value;
+                    var Adress = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                    var name = temp.SelectSingleNode(@"//td[2]").InnerText;
+                    var Torrent = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                    var Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
+                    var Size = temp.SelectSingleNode(@"//td[4]").InnerHtml;
+                    var Time = temp.SelectSingleNode(@"//td[5]").InnerHtml;
+                    var Up = temp.SelectSingleNode(@"//td[6]").InnerHtml;
+                    var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
+                    var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
+                }
+                url= "https://sukebei.nyaa.si/?p=2";
+                go();
             }
-            catch (AggregateException ex) when (ex.InnerException is CloudFlareClearanceException)
+            catch (Exception)
             {
-                MessageBox.Show(ex.InnerException.Message);
             }
         }
     }

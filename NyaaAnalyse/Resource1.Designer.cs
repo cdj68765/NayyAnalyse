@@ -61,23 +61,6 @@ namespace NyaaAnalyse {
         }
         
         /// <summary>
-        ///   查找类似 setTimeout(function(){
-        ///        var s,t,o,p,b,r,e,a,k,i,n,g,f, GHOTVqA={&quot;p&quot;:+((!+[]+!![]+[])+(!+[]+!![]+!![]+!![]))};
-        ///        t = document.createElement(&apos;div&apos;);
-        ///        t.innerHTML=&quot;&lt;a href=&apos;/&apos;&gt;x&lt;/a&gt;&quot;;
-        ///        t = t.firstChild.href;r = t.match(/https?:\/\//)[0];
-        ///        t = t.substr(r.length); t = t.substr(0,t.length-1);
-        ///        a = document.getElementById(&apos;jschl-answer&apos;);
-        ///        f = document.getElementById(&apos;challenge-form&apos;);
-        ///        ;GHOTVqA.p-=+((+!![]+[])+(!+[]+!![]+!![]+!![]+!![]+!![]+!![]+!![]+ [字符串的其余部分被截断]&quot;; 的本地化字符串。
-        /// </summary>
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 &lt;!DOCTYPE html&gt;
         ///&lt;html lang=&quot;en&quot;&gt;
         ///&lt;head&gt;
@@ -87,12 +70,14 @@ namespace NyaaAnalyse {
         ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
         ///&lt;link rel=&quot;shortcut icon&quot; type=&quot;image/png&quot; href=&quot;/static/favicon.png&quot;&gt;
         ///&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/static/favicon.png&quot;&gt;
-        ///&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://sukebei.nyaa.si/?page=rss&quot;/&gt;
-        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://sukebei.nyaa.si/?page=rss&quot;&gt;
+        /// 
+        /// 
+        ///&lt;link h [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string String2 {
+        internal static string Html {
             get {
-                return ResourceManager.GetString("String2", resourceCulture);
+                return ResourceManager.GetString("Html", resourceCulture);
             }
         }
     }

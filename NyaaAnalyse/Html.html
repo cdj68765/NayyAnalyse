@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Browse :: Sukebei</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="shortcut icon" type="image/png" href="/static/favicon.png">
+<link rel="icon" type="image/png" href="/static/favicon.png">
+<link rel="alternate" type="application/rss+xml" href="https://sukebei.nyaa.si/?page=rss">
+ 
+ 
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" id="bsThemeLink">
+ 
+<script>function toggleDarkMode(){"dark"===localStorage.getItem("theme")?setThemeLight():setThemeDark()}function setThemeDark(){bsThemeLink.href="/static/css/bootstrap-dark.min.css",localStorage.setItem("theme","dark")}function setThemeLight(){bsThemeLink.href="/static/css/bootstrap.min.css",localStorage.setItem("theme","light")}if("undefined"!=typeof Storage){var bsThemeLink=document.getElementById("bsThemeLink");"dark"===localStorage.getItem("theme")&&setThemeDark()}</script>
+<link href="/static/css/bootstrap-select.min.css" rel="stylesheet">
+<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+ 
+<link href="/static/css/main.css" rel="stylesheet">
+ 
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+ 
+<script src="/static/js/bootstrap-select.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+ 
+<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+ 
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/">Sukebei</a>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li><a href="/upload">Upload</a></li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+About
+<span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+<li><a href="/rules">Rules</a></li>
+<li><a href="/help">Help</a></li>
+</ul>
+</li>
+<li><a href="/?page=rss">RSS</a></li>
+<li><a href="https://nyaa.si/">SFW</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+<i class="fa fa-user-times fa-fw"></i>
+Guest
+<span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+<li>
+<a href="/login">
+<i class="fa fa-sign-in fa-fw"></i>
+Login
+</a>
+</li>
+<li>
+<a href="/register">
+<i class="fa fa-pencil fa-fw"></i>
+Register
+</a>
+</li>
+</ul>
+</li>
+</ul>
+<form class="navbar-form navbar-right form" action="/" method="get">
+<div class="input-group">
+<input type="text" class="form-control" name="q" placeholder="Search..." value="">
+<div class="input-group-btn" id="navFilter">
+<select class="selectpicker show-tick" title="Filter" data-width="120px" name="f">
+<option value="0" title="Show all" selected="">Show all
+<option value="1" title="No remakes">No remakes
+<option value="2" title="Trusted only">Trusted only
+</select>
+</div>
+<div class="input-group-btn" id="navFilter">
+<select class="selectpicker show-tick" title="Category" data-width="170px" name="c">
+<option value="0_0" title="Show all" selected="">
+Show all
+
+<option value="1_0" title="Art">
+Art
+
+<option value="1_1" title="Art - Anime">
+- Anime
+
+<option value="1_2" title="Art - Doujinshi">
+- Doujinshi
+
+<option value="1_3" title="Art - Games">
+- Games
+
+<option value="1_4" title="Art - Manga">
+- Manga
+
+<option value="1_5" title="Art - Pictures">
+- Pictures
+
+<option value="2_0" title="Real Life">
+Real Life
+
+<option value="2_1" title="Real Life - Pictures">
+- Photobooks and Pictures
+
+<option value="2_2" title="Real Life - Videos">
+- Videos
+
+</select>
+</div>
+<div class="input-group-btn">
+<button class="btn btn-primary" type="submit">
+<i class="fa fa-search fa-fw"></i>
+</button>
+</div>
+</div>
+</form>
+</div> 
+</div>
+</nav>
+<div class="container">
+<div class="alert alert-info">
+<p><strong>Hello!</strong> This site is still a work in progress and new features (faster and actually more accurate search, comments etc.) will be added in the coming days.</p>
+<p>We welcome you to provide feedback at <a href="irc://irc.rizon.net/nyaa-dev">#nyaa-dev@irc.rizon.net</a></p>
+<p>Our GitHub: <a href="https://github.com/nyaadevs" target="_blank">https://github.com/nyaadevs</a> - creating <a href="https://github.com/nyaadevs/nyaa/issues">issues</a> for features and faults is recommendable!</p>
+</div>
+<div class="table-responsive">
+<table class="table table-bordered table-hover table-striped torrent-list">
+<thead>
+<tr>
+<th class="hdr-category text-center" style="width:80px;">
+<div>Category</div>
+</th>
+<th class="hdr-name sorting" style="width:auto;">
+<a href="/?s=name&amp;o=desc"></a>
+<div>Name</div>
+</th>
+<th class="hdr-link text-center" style="width:0;">
+<div>Link</div>
+</th>
+<th class="hdr-size sorting text-center" style="width:100px;">
+<a href="/?s=size&amp;o=desc"></a>
+<div>Size</div>
+</th>
+<th class="hdr-date sorting_desc text-center" title="In UTC" style="width:140px;">
+<a href="/?s=id&amp;o=asc"></a>
+<div>Date</div>
+</th>
+<th class="hdr-seeders sorting text-center" title="Seeds" style="width:50px;">
+<a href="/?s=seeders&amp;o=desc"></a>
+<i class="fa fa-arrow-up" aria-hidden="true"></i>
+</th>
+<th class="hdr-leechers sorting text-center" title="Leeches" style="width:50px;">
+<a href="/?s=leechers&amp;o=desc"></a>
+<i class="fa fa-arrow-down" aria-hidden="true"></i>
+</th>
+<th class="hdr-downloads sorting text-center" title="Completed downloads" style="width:50px;">
+<a href="/?s=downloads&amp;o=desc"></a>
+<i class="fa fa-check" aria-hidden="true"></i>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304308">[DASD-361] バキュベッド 佐々木あき [Fetish] [Vacbed] [Latex]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304308/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:6RMNB5GD57Q3AXMY726VQKQCE4F34MGK&amp;dn=%5BDASD-361%5D+%E3%83%90%E3%82%AD%E3%83%A5%E3%83%99%E3%83%83%E3%83%89+%E4%BD%90%E3%80%85%E6%9C%A8%E3%81%82%E3%81%8D+%5BFetish%5D+%5BVacbed%5D+%5BLatex%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&amp;tr=http%3A%2F%2Fopen.nyaatorrents.info%3A6544%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">3.5 GiB</td>
+<td class="text-center" data-timestamp="1494852875">2017-05-15 12:54</td>
+<td class="text-center" style="color: green;">3</td>
+<td class="text-center" style="color: red;">19</td>
+<td class="text-center">0</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304307">(C79) [虚無の歌 (佐藤登志雄)] ぬこBLUE -総集編- (To LOVEる -とらぶる-)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304307/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:4DP4GMHZSJTASDFVD3PXZOQO5CG24XFJ&amp;dn=%28C79%29+%5B%E8%99%9A%E7%84%A1%E3%81%AE%E6%AD%8C+%28%E4%BD%90%E8%97%A4%E7%99%BB%E5%BF%97%E9%9B%84%29%5D+%E3%81%AC%E3%81%93BLUE+-%E7%B7%8F%E9%9B%86%E7%B7%A8-+%28To+LOVE%E3%82%8B+-%E3%81%A8%E3%82%89%E3%81%B6%E3%82%8B-%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">171.7 MiB</td>
+<td class="text-center" data-timestamp="1494851472">2017-05-15 12:31</td>
+<td class="text-center" style="color: green;">8</td>
+<td class="text-center" style="color: red;">9</td>
+<td class="text-center">11</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304306">[3xplanet] HEYZO_1484 Kokoro Shirizu JAV UNCENSORED</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304306/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:VTLLUVHYXRCFUKZPKQECL6CQMNNRYYQR&amp;dn=%5B3xplanet%5D+HEYZO_1484+Kokoro+Shirizu+JAV+UNCENSORED&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">2.2 GiB</td>
+<td class="text-center" data-timestamp="1494847162">2017-05-15 11:19</td>
+<td class="text-center" style="color: green;">13</td>
+<td class="text-center" style="color: red;">44</td>
+<td class="text-center">12</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304305">[Survive] みこぱこ!しゅららちゃん もふもふロリ巫女とのイチャラブセックスライフ(モーションコミック版)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304305/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:AL45R3TYG5XBFC2P3OSUPU6AHDXCD2PB&amp;dn=%5BSurvive%5D+%E3%81%BF%E3%81%93%E3%81%B1%E3%81%93%21%E3%81%97%E3%82%85%E3%82%89%E3%82%89%E3%81%A1%E3%82%83%E3%82%93+%E3%82%82%E3%81%B5%E3%82%82%E3%81%B5%E3%83%AD%E3%83%AA%E5%B7%AB%E5%A5%B3%E3%81%A8%E3%81%AE%E3%82%A4%E3%83%81%E3%83%A3%E3%83%A9%E3%83%96%E3%82%BB%E3%83%83%E3%82%AF%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%95%28%E3%83%A2%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E7%89%88%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">104.6 MiB</td>
+<td class="text-center" data-timestamp="1494846258">2017-05-15 11:04</td>
+<td class="text-center" style="color: green;">10</td>
+<td class="text-center" style="color: red;">23</td>
+<td class="text-center">36</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304304">[H-Manga] COMIC LO 2017-06 [Digital] - COMIC LO 2017年6月号 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304304/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:J4JL7LQ3O3MVYCXL45OUIC7HYF2EBYBO&amp;dn=%5BH-Manga%5D+COMIC+LO+2017-06+%5BDigital%5D+-+COMIC+LO+2017%E5%B9%B46%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">313.3 MiB</td>
+<td class="text-center" data-timestamp="1494845311">2017-05-15 10:48</td>
+<td class="text-center" style="color: green;">45</td>
+<td class="text-center" style="color: red;">82</td>
+<td class="text-center">189</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304303">[H-Manga] COMIC Megastore Alpha 2017-05 [Digital] - コミックメガストアα 2017年5月号 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304303/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:JXXTGDAKJBGP4UIF2TZK7FDFIZEX4SP5&amp;dn=%5BH-Manga%5D+COMIC+Megastore+Alpha+2017-05+%5BDigital%5D+-+%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%83%A1%E3%82%AC%E3%82%B9%E3%83%88%E3%82%A2%CE%B1+2017%E5%B9%B45%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">377.9 MiB</td>
+<td class="text-center" data-timestamp="1494845297">2017-05-15 10:48</td>
+<td class="text-center" style="color: green;">40</td>
+<td class="text-center" style="color: red;">101</td>
+<td class="text-center">177</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304302">[H-Manga] COMIC Kairakuten BEAST 2017-06 [Digital] - COMlC 快楽天ビースト 2017年6月号 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304302/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:ITJC6DJVMQSMUK3X5APAFYRN2UGCJ2RD&amp;dn=%5BH-Manga%5D+COMIC+Kairakuten+BEAST+2017-06+%5BDigital%5D+-+COMlC+%E5%BF%AB%E6%A5%BD%E5%A4%A9%E3%83%93%E3%83%BC%E3%82%B9%E3%83%88+2017%E5%B9%B46%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">735.7 MiB</td>
+<td class="text-center" data-timestamp="1494845280">2017-05-15 10:48</td>
+<td class="text-center" style="color: green;">38</td>
+<td class="text-center" style="color: red;">103</td>
+<td class="text-center">169</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304301">[H-Manga] COMIC Mugen Tensei 2017-05 [Digital] - COMIC 夢幻転生 2017年5月号 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304301/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:CZND4OBYU6HSJIS34DTGYH373L6QUY6H&amp;dn=%5BH-Manga%5D+COMIC+Mugen+Tensei+2017-05+%5BDigital%5D+-+COMIC+%E5%A4%A2%E5%B9%BB%E8%BB%A2%E7%94%9F+2017%E5%B9%B45%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">540.6 MiB</td>
+<td class="text-center" data-timestamp="1494845260">2017-05-15 10:47</td>
+<td class="text-center" style="color: green;">29</td>
+<td class="text-center" style="color: red;">88</td>
+<td class="text-center">127</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304300">[H-Manga] [Anthology] Digital Puni Pedo! Vol. 05 [Digital] - [アンソロジー] デジタルぷにぺどッ！ Vol.05 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304300/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:C4E3OUH6DNXGTLOGWOGWWMFRW6AW3WBK&amp;dn=%5BH-Manga%5D+%5BAnthology%5D+Digital+Puni+Pedo%21+Vol.+05+%5BDigital%5D+-+%5B%E3%82%A2%E3%83%B3%E3%82%BD%E3%83%AD%E3%82%B8%E3%83%BC%5D+%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%81%B7%E3%81%AB%E3%81%BA%E3%81%A9%E3%83%83%EF%BC%81+Vol.05+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">66.6 MiB</td>
+<td class="text-center" data-timestamp="1494845239">2017-05-15 10:47</td>
+<td class="text-center" style="color: green;">29</td>
+<td class="text-center" style="color: red;">30</td>
+<td class="text-center">98</td>
+</tr>
+<tr class="success">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304299">[JAV] [Uncesored] FC2 PPV 529481 生挿入解禁！エロ声が可愛いい美乳娘が更にＨ度ぱわーＵＰガッツリ逝かせてあげちゃいました～?</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304299/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:5AYEE2VPKDUIKDGJPDSTCY4CWYNSJI7L&amp;dn=%5BJAV%5D+%5BUncesored%5D+FC2+PPV+529481+%E7%94%9F%E6%8C%BF%E5%85%A5%E8%A7%A3%E7%A6%81%EF%BC%81%E3%82%A8%E3%83%AD%E5%A3%B0%E3%81%8C%E5%8F%AF%E6%84%9B%E3%81%84%E3%81%84%E7%BE%8E%E4%B9%B3%E5%A8%98%E3%81%8C%E6%9B%B4%E3%81%AB%EF%BC%A8%E5%BA%A6%E3%81%B1%E3%82%8F%E3%83%BC%EF%BC%B5%EF%BC%B0%E3%82%AC%E3%83%83%E3%83%84%E3%83%AA%E9%80%9D%E3%81%8B%E3%81%9B%E3%81%A6%E3%81%82%E3%81%92%E3%81%A1%E3%82%83%E3%81%84%E3%81%BE%E3%81%97%E3%81%9F%EF%BD%9E%E2%99%AA&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=http%3A%2F%2Fanidex.moe%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.4 GiB</td>
+<td class="text-center" data-timestamp="1494842956">2017-05-15 10:09</td>
+<td class="text-center" style="color: green;">29</td>
+<td class="text-center" style="color: red;">105</td>
+<td class="text-center">115</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304298">(C84) [Star-Dreamer Tei (Staryume)] START ECCHi! (Love Live!) [English]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304298/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:JXEWLPWC43QZGAL2OJKEEA3J4PGC32QZ&amp;dn=%28C84%29+%5BStar-Dreamer+Tei+%28Staryume%29%5D+START+ECCHi%21+%28Love+Live%21%29+%5BEnglish%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=http%3A%2F%2Fehtracker.org%2F1063375%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">26.0 MiB</td>
+<td class="text-center" data-timestamp="1494840755">2017-05-15 09:32</td>
+<td class="text-center" style="color: green;">2</td>
+<td class="text-center" style="color: red;">1</td>
+<td class="text-center">6</td>
+</tr>
+<tr class="success">
+<td style="padding:0 4px;">
+<a href="/?c=2_1" title="Real Life - Photobooks / Pictures">
+<img src="/static/img/icons/sukebei/2_1.png">
+</a>
+</td>
+<td><a href="/view/2304297">[HuaYan] 花の颜 2016.11.21 VOL.011 李雪婷Anna</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304297/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:DVEP6RFZNRZVYCZX34JU3BIDCJYVHB47&amp;dn=%5BHuaYan%5D+%E8%8A%B1%E3%81%AE%E9%A2%9C+2016.11.21+VOL.011+%E6%9D%8E%E9%9B%AA%E5%A9%B7Anna&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=http%3A%2F%2Fanidex.moe%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">199.9 MiB</td>
+<td class="text-center" data-timestamp="1494838341">2017-05-15 08:52</td>
+<td class="text-center" style="color: green;">5</td>
+<td class="text-center" style="color: red;">32</td>
+<td class="text-center">31</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304296">[VR视频/VR眼镜/VR盒子][LOLIHD][超清无码无修正]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304296/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:NN2N42UWDLNAHGYW4AGFNAJAPR7EJQ2T&amp;dn=%5BVR%E8%A7%86%E9%A2%91%2FVR%E7%9C%BC%E9%95%9C%2FVR%E7%9B%92%E5%AD%90%5D%5BLOLIHD%5D%5B%E8%B6%85%E6%B8%85%E6%97%A0%E7%A0%81%E6%97%A0%E4%BF%AE%E6%AD%A3%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&amp;tr=http%3A%2F%2Ftracker.tfile.me%2Fannounce&amp;tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannonuce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">7.2 GiB</td>
+<td class="text-center" data-timestamp="1494838186">2017-05-15 08:49</td>
+<td class="text-center" style="color: green;">4</td>
+<td class="text-center" style="color: red;">71</td>
+<td class="text-center">0</td>
+</tr>
+<tr class="success">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304295">[JAV] [Uncesored] Lesshin n791 レズのしんぴ n791 友達を連れてきてレズＳＥＸ交渉～まなかちゃんとゆりあちゃん～①</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304295/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:HWCWHZEVW5NZXU33JVLMET6LPUNO3J7W&amp;dn=%5BJAV%5D+%5BUncesored%5D+Lesshin+n791+%E3%83%AC%E3%82%BA%E3%81%AE%E3%81%97%E3%82%93%E3%81%B4+n791+%E5%8F%8B%E9%81%94%E3%82%92%E9%80%A3%E3%82%8C%E3%81%A6%E3%81%8D%E3%81%A6%E3%83%AC%E3%82%BA%EF%BC%B3%EF%BC%A5%EF%BC%B8%E4%BA%A4%E6%B8%89%EF%BD%9E%E3%81%BE%E3%81%AA%E3%81%8B%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E3%82%86%E3%82%8A%E3%81%82%E3%81%A1%E3%82%83%E3%82%93%EF%BD%9E%E2%91%A0&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=http%3A%2F%2Fanidex.moe%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">790.3 MiB</td>
+<td class="text-center" data-timestamp="1494837175">2017-05-15 08:32</td>
+<td class="text-center" style="color: green;">13</td>
+<td class="text-center" style="color: red;">33</td>
+<td class="text-center">47</td>
+</tr>
+<tr class="success">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304294">[JAV] [Uncesored] Lesshin n793 レズのしんぴ n793 教えてあげる～かなちゃんとちひろちゃん③</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304294/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:P6FIEXZJ3XKLHZD7JKIZY7XR5MWLXEL7&amp;dn=%5BJAV%5D+%5BUncesored%5D+Lesshin+n793+%E3%83%AC%E3%82%BA%E3%81%AE%E3%81%97%E3%82%93%E3%81%B4+n793+%E6%95%99%E3%81%88%E3%81%A6%E3%81%82%E3%81%92%E3%82%8B%EF%BD%9E%E3%81%8B%E3%81%AA%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E3%81%A1%E3%81%B2%E3%82%8D%E3%81%A1%E3%82%83%E3%82%93%E2%91%A2&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=http%3A%2F%2Fanidex.moe%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">790.3 MiB</td>
+<td class="text-center" data-timestamp="1494831825">2017-05-15 07:03</td>
+<td class="text-center" style="color: green;">29</td>
+<td class="text-center" style="color: red;">48</td>
+<td class="text-center">118</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304293">[Eng-Sub] [SubDesu-H] Ane-Koi ~ - 姉恋 Ep.01-02</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304293/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:D7K5GPVJP42QQGCHYWGZPT27VKIPIQEH&amp;dn=%5BEng-Sub%5D+%5BSubDesu-H%5D+Ane-Koi+%7E+-+%E5%A7%89%E6%81%8B+Ep.01-02&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">305.1 MiB</td>
+<td class="text-center" data-timestamp="1494830657">2017-05-15 06:44</td>
+<td class="text-center" style="color: green;">22</td>
+<td class="text-center" style="color: red;">41</td>
+<td class="text-center">116</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304292">[Eng-Sub] [SubDesu-H] Aku no Onna Kanbu: Full Moon Night - 悪の女幹部 フルムーンナイト Ep.01</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304292/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:OGUZCLGGYVY45O6D7V6IEM6TCE3NL6WC&amp;dn=%5BEng-Sub%5D+%5BSubDesu-H%5D+Aku+no+Onna+Kanbu%3A+Full+Moon+Night+-+%E6%82%AA%E3%81%AE%E5%A5%B3%E5%B9%B9%E9%83%A8+%E3%83%95%E3%83%AB%E3%83%A0%E3%83%BC%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%88+Ep.01&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">226.0 MiB</td>
+<td class="text-center" data-timestamp="1494830639">2017-05-15 06:43</td>
+<td class="text-center" style="color: green;">20</td>
+<td class="text-center" style="color: red;">31</td>
+<td class="text-center">79</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304291">[Eng-Sub] [Anim8S] Aku no Onna Kanbu - Evil Woman Executive Ep.01-02</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304291/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:VHYEOGWNX5FYIJNQN32OBCJX6HACXYZI&amp;dn=%5BEng-Sub%5D+%5BAnim8S%5D+Aku+no+Onna+Kanbu+-+Evil+Woman+Executive+Ep.01-02&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.0 GiB</td>
+<td class="text-center" data-timestamp="1494830620">2017-05-15 06:43</td>
+<td class="text-center" style="color: green;">19</td>
+<td class="text-center" style="color: red;">40</td>
+<td class="text-center">77</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304290">[Eng-Sub] [SubDesu-H] Akina to Onsen de H Shiyo! - 明菜と温泉でHしよっ Ep.01</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304290/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:FYNRLH3NMBAJZSTHKDCKAVFP4LO7VI5Y&amp;dn=%5BEng-Sub%5D+%5BSubDesu-H%5D+Akina+to+Onsen+de+H+Shiyo%21+-+%E6%98%8E%E8%8F%9C%E3%81%A8%E6%B8%A9%E6%B3%89%E3%81%A7H%E3%81%97%E3%82%88%E3%81%A3+Ep.01&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">129.6 MiB</td>
+<td class="text-center" data-timestamp="1494830603">2017-05-15 06:43</td>
+<td class="text-center" style="color: green;">27</td>
+<td class="text-center" style="color: red;">30</td>
+<td class="text-center">84</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304289">[Eng-Sub] [SubDesu-H] Aisai Nikki - 愛妻日記 Ep.01</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304289/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:7XGS25H7CAYMDWFHAZZH7IIFLLCKOLSY&amp;dn=%5BEng-Sub%5D+%5BSubDesu-H%5D+Aisai+Nikki+-+%E6%84%9B%E5%A6%BB%E6%97%A5%E8%A8%98+Ep.01&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">126.2 MiB</td>
+<td class="text-center" data-timestamp="1494830588">2017-05-15 06:43</td>
+<td class="text-center" style="color: green;">27</td>
+<td class="text-center" style="color: red;">25</td>
+<td class="text-center">82</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304288">[ShindoL] Metamorphosis [FAKKU]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304288/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:IOERFMV5KWELXDYE6BJFZMSXNYVRQGTU&amp;dn=%5BShindoL%5D+Metamorphosis+%5BFAKKU%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">476.5 MiB</td>
+<td class="text-center" data-timestamp="1494829442">2017-05-15 06:24</td>
+<td class="text-center" style="color: green;">11</td>
+<td class="text-center" style="color: red;">9</td>
+<td class="text-center">34</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304287">[H-Manga] [Maimu-Maimu] Onna Kyoushi to Boku no Himitsu - [舞六まいむ] 女教師と僕の秘密 [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304287/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:2QN5ST5GC4EK335VIITNQJZMFSLROHWL&amp;dn=%5BH-Manga%5D+%5BMaimu-Maimu%5D+Onna+Kyoushi+to+Boku+no+Himitsu+-+%5B%E8%88%9E%E5%85%AD%E3%81%BE%E3%81%84%E3%82%80%5D+%E5%A5%B3%E6%95%99%E5%B8%AB%E3%81%A8%E5%83%95%E3%81%AE%E7%A7%98%E5%AF%86+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">521.8 MiB</td>
+<td class="text-center" data-timestamp="1494826664">2017-05-15 05:37</td>
+<td class="text-center" style="color: green;">25</td>
+<td class="text-center" style="color: red;">50</td>
+<td class="text-center">161</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304286">[H-Manga] [Aoi Hitori] Yankee Zuma Kanraku! ~Hitozuma Kanochi Onsen~ - [葵ヒトリ] ヤンキー妻 陥落! ～人妻完堕ち温泉～ [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304286/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:T54YFI465EKKH4TTWBEG3XTK7BSVIHUY&amp;dn=%5BH-Manga%5D+%5BAoi+Hitori%5D+Yankee+Zuma+Kanraku%21+%7EHitozuma+Kanochi+Onsen%7E+-+%5B%E8%91%B5%E3%83%92%E3%83%88%E3%83%AA%5D+%E3%83%A4%E3%83%B3%E3%82%AD%E3%83%BC%E5%A6%BB+%E9%99%A5%E8%90%BD%21+%EF%BD%9E%E4%BA%BA%E5%A6%BB%E5%AE%8C%E5%A0%95%E3%81%A1%E6%B8%A9%E6%B3%89%EF%BD%9E+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">703.9 MiB</td>
+<td class="text-center" data-timestamp="1494826647">2017-05-15 05:37</td>
+<td class="text-center" style="color: green;">28</td>
+<td class="text-center" style="color: red;">55</td>
+<td class="text-center">110</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304285">[H-Manga] [Mokufu] Ecstasy Holic - [もくふう] えくすたしーホリック [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304285/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:PNBMTDMMLLVZ4PGUHOVPAENMUZ7M7BQX&amp;dn=%5BH-Manga%5D+%5BMokufu%5D+Ecstasy+Holic+-+%5B%E3%82%82%E3%81%8F%E3%81%B5%E3%81%86%5D+%E3%81%88%E3%81%8F%E3%81%99%E3%81%9F%E3%81%97%E3%83%BC%E3%83%9B%E3%83%AA%E3%83%83%E3%82%AF+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">669.9 MiB</td>
+<td class="text-center" data-timestamp="1494826633">2017-05-15 05:37</td>
+<td class="text-center" style="color: green;">28</td>
+<td class="text-center" style="color: red;">59</td>
+<td class="text-center">131</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304284">[H-Manga] [Takasugi Kou] Mumyou no Uzu - [タカスギコウ] 無明の渦 [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304284/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:DY3Y6FY4OZZCC34B4I2MPY5NVX4WOE7E&amp;dn=%5BH-Manga%5D+%5BTakasugi+Kou%5D+Mumyou+no+Uzu+-+%5B%E3%82%BF%E3%82%AB%E3%82%B9%E3%82%AE%E3%82%B3%E3%82%A6%5D+%E7%84%A1%E6%98%8E%E3%81%AE%E6%B8%A6+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">466.1 MiB</td>
+<td class="text-center" data-timestamp="1494826618">2017-05-15 05:36</td>
+<td class="text-center" style="color: green;">15</td>
+<td class="text-center" style="color: red;">45</td>
+<td class="text-center">79</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304283">[H-Manga] [C.R] Ikusa Otome, Kairaku ni Nomareiku - [しーあーる] 戦乙女、快楽ニ呑マレイク + イラストカード [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304283/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:OAKHTKXI26AXRHJFMRKD2LSVBNYVVX22&amp;dn=%5BH-Manga%5D+%5BC.R%5D+Ikusa+Otome%2C+Kairaku+ni+Nomareiku+-+%5B%E3%81%97%E3%83%BC%E3%81%82%E3%83%BC%E3%82%8B%5D+%E6%88%A6%E4%B9%99%E5%A5%B3%E3%80%81%E5%BF%AB%E6%A5%BD%E3%83%8B%E5%91%91%E3%83%9E%E3%83%AC%E3%82%A4%E3%82%AF+%2B+%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">671.5 MiB</td>
+<td class="text-center" data-timestamp="1494826601">2017-05-15 05:36</td>
+<td class="text-center" style="color: green;">27</td>
+<td class="text-center" style="color: red;">46</td>
+<td class="text-center">95</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304282">[H-Manga] COMIC Mate Legend Vol. 15 2017-05 [Digital] - コミック Mate legend Vol.15 2017年5月号 [DL版] [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304282/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:M26BEGFAGWP3EMFVGWEHFS5QO3JDWGOG&amp;dn=%5BH-Manga%5D+COMIC+Mate+Legend+Vol.+15+2017-05+%5BDigital%5D+-+%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF+Mate+legend+Vol.15+2017%E5%B9%B45%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">194.2 MiB</td>
+<td class="text-center" data-timestamp="1494826585">2017-05-15 05:36</td>
+<td class="text-center" style="color: green;">26</td>
+<td class="text-center" style="color: red;">32</td>
+<td class="text-center">132</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304281">[Oda Non] Non Virgin [FAKKU]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304281/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:H5WRUA5E56GHWWBLUDQHKVB2TI4HIE4U&amp;dn=%5BOda+Non%5D+Non+Virgin+%5BFAKKU%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.2 GiB</td>
+<td class="text-center" data-timestamp="1494826200">2017-05-15 05:30</td>
+<td class="text-center" style="color: green;">10</td>
+<td class="text-center" style="color: red;">16</td>
+<td class="text-center">24</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304280">[IPZ-935] 激ピストン×園コス コスプレかました上園ちゃんにぱちゅんぱちゅんと激ピストンかまします！ 上園ゆりか</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304280/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:655JHO6XNZEFNJKU2UUBMLTG72NNHIKF&amp;dn=%5BIPZ-935%5D+%E6%BF%80%E3%83%94%E3%82%B9%E3%83%88%E3%83%B3%C3%97%E5%9C%92%E3%82%B3%E3%82%B9+%E3%82%B3%E3%82%B9%E3%83%97%E3%83%AC%E3%81%8B%E3%81%BE%E3%81%97%E3%81%9F%E4%B8%8A%E5%9C%92%E3%81%A1%E3%82%83%E3%82%93%E3%81%AB%E3%81%B1%E3%81%A1%E3%82%85%E3%82%93%E3%81%B1%E3%81%A1%E3%82%85%E3%82%93%E3%81%A8%E6%BF%80%E3%83%94%E3%82%B9%E3%83%88%E3%83%B3%E3%81%8B%E3%81%BE%E3%81%97%E3%81%BE%E3%81%99%EF%BC%81+%E4%B8%8A%E5%9C%92%E3%82%86%E3%82%8A%E3%81%8B&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.4 GiB</td>
+<td class="text-center" data-timestamp="1494825208">2017-05-15 05:13</td>
+<td class="text-center" style="color: green;">25</td>
+<td class="text-center" style="color: red;">107</td>
+<td class="text-center">127</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304279">[MIMK-048] 時×停止club～生オナホにされる少女達～ 緒奈もえ</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304279/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:EWHCJBGSODIZTLZM2YKS5VFC3L5VQDAU&amp;dn=%5BMIMK-048%5D+%E6%99%82%C3%97%E5%81%9C%E6%AD%A2club%EF%BD%9E%E7%94%9F%E3%82%AA%E3%83%8A%E3%83%9B%E3%81%AB%E3%81%95%E3%82%8C%E3%82%8B%E5%B0%91%E5%A5%B3%E9%81%94%EF%BD%9E+%E7%B7%92%E5%A5%88%E3%82%82%E3%81%88&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.5 GiB</td>
+<td class="text-center" data-timestamp="1494825189">2017-05-15 05:13</td>
+<td class="text-center" style="color: green;">22</td>
+<td class="text-center" style="color: red;">52</td>
+<td class="text-center">113</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304278">[SHIC-071] うちの娘、家ではブラジャーを着けないので、父としてはちょっと困ってます… ひなちゃん 佐々木ひな</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304278/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:XNIG5BGNO4ALD4I7H4DIKXSEASQ5MIC3&amp;dn=%5BSHIC-071%5D+%E3%81%86%E3%81%A1%E3%81%AE%E5%A8%98%E3%80%81%E5%AE%B6%E3%81%A7%E3%81%AF%E3%83%96%E3%83%A9%E3%82%B8%E3%83%A3%E3%83%BC%E3%82%92%E7%9D%80%E3%81%91%E3%81%AA%E3%81%84%E3%81%AE%E3%81%A7%E3%80%81%E7%88%B6%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AF%E3%81%A1%E3%82%87%E3%81%A3%E3%81%A8%E5%9B%B0%E3%81%A3%E3%81%A6%E3%81%BE%E3%81%99%E2%80%A6+%E3%81%B2%E3%81%AA%E3%81%A1%E3%82%83%E3%82%93+%E4%BD%90%E3%80%85%E6%9C%A8%E3%81%B2%E3%81%AA&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">2.5 GiB</td>
+<td class="text-center" data-timestamp="1494825170">2017-05-15 05:12</td>
+<td class="text-center" style="color: green;">12</td>
+<td class="text-center" style="color: red;">61</td>
+<td class="text-center">54</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304277">[SOAV-028] 人妻の浮気心 再会 佐々木あき</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304277/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:OROBM3FUOYHYCK5XPOTV2K2DMDMULRWU&amp;dn=%5BSOAV-028%5D+%E4%BA%BA%E5%A6%BB%E3%81%AE%E6%B5%AE%E6%B0%97%E5%BF%83+%E5%86%8D%E4%BC%9A+%E4%BD%90%E3%80%85%E6%9C%A8%E3%81%82%E3%81%8D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.0 GiB</td>
+<td class="text-center" data-timestamp="1494825153">2017-05-15 05:12</td>
+<td class="text-center" style="color: green;">14</td>
+<td class="text-center" style="color: red;">45</td>
+<td class="text-center">37</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304276">[MEYD-252] 私、実は夫の上司に犯され続けてます… 松浦理央</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304276/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:COWFSP4LW6FDP33NJJIILXB4W5M3UZLT&amp;dn=%5BMEYD-252%5D+%E7%A7%81%E3%80%81%E5%AE%9F%E3%81%AF%E5%A4%AB%E3%81%AE%E4%B8%8A%E5%8F%B8%E3%81%AB%E7%8A%AF%E3%81%95%E3%82%8C%E7%B6%9A%E3%81%91%E3%81%A6%E3%81%BE%E3%81%99%E2%80%A6+%E6%9D%BE%E6%B5%A6%E7%90%86%E5%A4%AE&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.1 GiB</td>
+<td class="text-center" data-timestamp="1494825140">2017-05-15 05:12</td>
+<td class="text-center" style="color: green;">12</td>
+<td class="text-center" style="color: red;">35</td>
+<td class="text-center">39</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304275">(海ゆかば6) [きつねとぶどう (くろな)] なかよし? (艦隊これくしょん -艦これ-)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304275/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:YBA7GVKBQH5C3ZP4TF4IZ3TP4RQKLZ4Q&amp;dn=%28%E6%B5%B7%E3%82%86%E3%81%8B%E3%81%B06%29+%5B%E3%81%8D%E3%81%A4%E3%81%AD%E3%81%A8%E3%81%B6%E3%81%A9%E3%81%86+%28%E3%81%8F%E3%82%8D%E3%81%AA%29%5D+%E3%81%AA%E3%81%8B%E3%82%88%E3%81%97%E2%99%AA+%28%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93+-%E8%89%A6%E3%81%93%E3%82%8C-%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">51.2 MiB</td>
+<td class="text-center" data-timestamp="1494825084">2017-05-15 05:11</td>
+<td class="text-center" style="color: green;">6</td>
+<td class="text-center" style="color: red;">7</td>
+<td class="text-center">51</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304274">(COMIC1☆11) [ハイブリッド事務室 (室永叉焼)] ハイブリッド通信 vol.26 (猫のお寺の知恩さん)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304274/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:KX2FUTJQKT5O5M5LLIJ243GSNDQM5MZD&amp;dn=%28COMIC1%E2%98%8611%29+%5B%E3%83%8F%E3%82%A4%E3%83%96%E3%83%AA%E3%83%83%E3%83%89%E4%BA%8B%E5%8B%99%E5%AE%A4+%28%E5%AE%A4%E6%B0%B8%E5%8F%89%E7%84%BC%29%5D+%E3%83%8F%E3%82%A4%E3%83%96%E3%83%AA%E3%83%83%E3%83%89%E9%80%9A%E4%BF%A1+vol.26+%28%E7%8C%AB%E3%81%AE%E3%81%8A%E5%AF%BA%E3%81%AE%E7%9F%A5%E6%81%A9%E3%81%95%E3%82%93%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">30.9 MiB</td>
+<td class="text-center" data-timestamp="1494824828">2017-05-15 05:07</td>
+<td class="text-center" style="color: green;">9</td>
+<td class="text-center" style="color: red;">5</td>
+<td class="text-center">60</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304273">(例大祭14) [やし屋 (YASSY)] Dreams dreams (東方Project)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304273/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:GXAGVFJLMS7VL4LM7M3PDU573AHLWQC5&amp;dn=%28%E4%BE%8B%E5%A4%A7%E7%A5%AD14%29+%5B%E3%82%84%E3%81%97%E5%B1%8B+%28YASSY%29%5D+Dreams+dreams+%28%E6%9D%B1%E6%96%B9Project%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">38.1 MiB</td>
+<td class="text-center" data-timestamp="1494824653">2017-05-15 05:04</td>
+<td class="text-center" style="color: green;">12</td>
+<td class="text-center" style="color: red;">9</td>
+<td class="text-center">59</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304272">(COMIC1☆11) [千夜茶房 (α?アルフライラ)] 提督さん ふたなり鹿島に犯されてみます？ (艦隊これくしょん -艦これ-)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304272/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:R6V2L5ZO5DHBFWZMX5D5723NQ4U2JS2X&amp;dn=%28COMIC1%E2%98%8611%29+%5B%E5%8D%83%E5%A4%9C%E8%8C%B6%E6%88%BF+%28%CE%B1%E3%83%BB%E3%82%A2%E3%83%AB%E3%83%95%E3%83%A9%E3%82%A4%E3%83%A9%29%5D+%E6%8F%90%E7%9D%A3%E3%81%95%E3%82%93+%E3%81%B5%E3%81%9F%E3%81%AA%E3%82%8A%E9%B9%BF%E5%B3%B6%E3%81%AB%E7%8A%AF%E3%81%95%E3%82%8C%E3%81%A6%E3%81%BF%E3%81%BE%E3%81%99%EF%BC%9F+%28%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93+-%E8%89%A6%E3%81%93%E3%82%8C-%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">18.4 MiB</td>
+<td class="text-center" data-timestamp="1494824501">2017-05-15 05:01</td>
+<td class="text-center" style="color: green;">14</td>
+<td class="text-center" style="color: red;">8</td>
+<td class="text-center">81</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304271">(例大祭14) [はぴねすみるく (おびゃー)] 古明地姉妹は変態マゾホール (東方Project)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304271/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:Y2NJKUJ72TYBTJS3X24SEC572VHUA7R5&amp;dn=%28%E4%BE%8B%E5%A4%A7%E7%A5%AD14%29+%5B%E3%81%AF%E3%81%B4%E3%81%AD%E3%81%99%E3%81%BF%E3%82%8B%E3%81%8F+%28%E3%81%8A%E3%81%B3%E3%82%83%E3%83%BC%29%5D+%E5%8F%A4%E6%98%8E%E5%9C%B0%E5%A7%89%E5%A6%B9%E3%81%AF%E5%A4%89%E6%85%8B%E3%83%9E%E3%82%BE%E3%83%9B%E3%83%BC%E3%83%AB+%28%E6%9D%B1%E6%96%B9Project%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">50.9 MiB</td>
+<td class="text-center" data-timestamp="1494824306">2017-05-15 04:58</td>
+<td class="text-center" style="color: green;">10</td>
+<td class="text-center" style="color: red;">6</td>
+<td class="text-center">50</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304270">(例大祭14) [いちお屋 (イチオ)] 早苗さんが旧白スク水で筆おろししてくれる本 (東方Project)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304270/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:D4JEHZZZWNXTTHGIJPLQ5TON5MKHANEZ&amp;dn=%28%E4%BE%8B%E5%A4%A7%E7%A5%AD14%29+%5B%E3%81%84%E3%81%A1%E3%81%8A%E5%B1%8B+%28%E3%82%A4%E3%83%81%E3%82%AA%29%5D+%E6%97%A9%E8%8B%97%E3%81%95%E3%82%93%E3%81%8C%E6%97%A7%E7%99%BD%E3%82%B9%E3%82%AF%E6%B0%B4%E3%81%A7%E7%AD%86%E3%81%8A%E3%82%8D%E3%81%97%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%82%8B%E6%9C%AC+%28%E6%9D%B1%E6%96%B9Project%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">40.1 MiB</td>
+<td class="text-center" data-timestamp="1494824049">2017-05-15 04:54</td>
+<td class="text-center" style="color: green;">9</td>
+<td class="text-center" style="color: red;">10</td>
+<td class="text-center">80</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304269">(例大祭14) [にゃんころもちもち (コトバアイ)] はたてお姉ちゃんをお年玉で買ってみた (東方Project)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304269/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:WB3YAMRWKNHBK6ZB6EARZUWNNMIRWUFV&amp;dn=%28%E4%BE%8B%E5%A4%A7%E7%A5%AD14%29+%5B%E3%81%AB%E3%82%83%E3%82%93%E3%81%93%E3%82%8D%E3%82%82%E3%81%A1%E3%82%82%E3%81%A1+%28%E3%82%B3%E3%83%88%E3%83%90%E3%82%A2%E3%82%A4%29%5D+%E3%81%AF%E3%81%9F%E3%81%A6%E3%81%8A%E5%A7%89%E3%81%A1%E3%82%83%E3%82%93%E3%82%92%E3%81%8A%E5%B9%B4%E7%8E%89%E3%81%A7%E8%B2%B7%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F+%28%E6%9D%B1%E6%96%B9Project%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">35.6 MiB</td>
+<td class="text-center" data-timestamp="1494823860">2017-05-15 04:51</td>
+<td class="text-center" style="color: green;">13</td>
+<td class="text-center" style="color: red;">6</td>
+<td class="text-center">92</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304268">(例大祭14) [過疎座間 (HYDRANT)] マイスイートHONEYはたて (東方Project)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304268/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:JOH5E4C43GGTBTUZMGGEZWUPZBGMATBO&amp;dn=%28%E4%BE%8B%E5%A4%A7%E7%A5%AD14%29+%5B%E9%81%8E%E7%96%8E%E5%BA%A7%E9%96%93+%28HYDRANT%29%5D+%E3%83%9E%E3%82%A4%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%88HONEY%E3%81%AF%E3%81%9F%E3%81%A6+%28%E6%9D%B1%E6%96%B9Project%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">48.7 MiB</td>
+<td class="text-center" data-timestamp="1494823519">2017-05-15 04:45</td>
+<td class="text-center" style="color: green;">8</td>
+<td class="text-center" style="color: red;">3</td>
+<td class="text-center">49</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304267">(C90) [すてむん (stem)] 幼なじみが僕のちん○狙ってる。 (オリジナル)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304267/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:EV2AFCLIZD7EK27ENJW5EOGHYFZJUUEL&amp;dn=%28C90%29+%5B%E3%81%99%E3%81%A6%E3%82%80%E3%82%93+%28stem%29%5D+%E5%B9%BC%E3%81%AA%E3%81%98%E3%81%BF%E3%81%8C%E5%83%95%E3%81%AE%E3%81%A1%E3%82%93%E2%97%8B%E7%8B%99%E3%81%A3%E3%81%A6%E3%82%8B%E3%80%82+%28%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%AB%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">33.4 MiB</td>
+<td class="text-center" data-timestamp="1494823307">2017-05-15 04:41</td>
+<td class="text-center" style="color: green;">6</td>
+<td class="text-center" style="color: red;">8</td>
+<td class="text-center">56</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304266">(C90) [すてむん (stem)] 幼なじみが僕のちん○狙ってる。 (オリジナル).zip</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304266/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:LQ2RTZZUUMFJMS4RBDWBHN2TKHSKZE7V&amp;dn=%28C90%29+%5B%E3%81%99%E3%81%A6%E3%82%80%E3%82%93+%28stem%29%5D+%E5%B9%BC%E3%81%AA%E3%81%98%E3%81%BF%E3%81%8C%E5%83%95%E3%81%AE%E3%81%A1%E3%82%93%E2%97%8B%E7%8B%99%E3%81%A3%E3%81%A6%E3%82%8B%E3%80%82+%28%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%AB%29.zip&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=http%3A%2F%2Fehtracker.org%2F1063314%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">33.4 MiB</td>
+<td class="text-center" data-timestamp="1494822473">2017-05-15 04:27</td>
+<td class="text-center" style="color: green;">6</td>
+<td class="text-center" style="color: red;">7</td>
+<td class="text-center">64</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_5" title="Art - Pictures">
+<img src="/static/img/icons/sukebei/1_5.png">
+</a>
+</td>
+<td><a href="/view/2304265">(同人CG集) [まいさい] 長舌エルフさんの柔らかおくちで搾られたい!</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304265/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:2AJNOHMCYIA3ORGD7Q7WFMS7ZK2ZVKB6&amp;dn=%28%E5%90%8C%E4%BA%BACG%E9%9B%86%29+%5B%E3%81%BE%E3%81%84%E3%81%95%E3%81%84%5D+%E9%95%B7%E8%88%8C%E3%82%A8%E3%83%AB%E3%83%95%E3%81%95%E3%82%93%E3%81%AE%E6%9F%94%E3%82%89%E3%81%8B%E3%81%8A%E3%81%8F%E3%81%A1%E3%81%A7%E6%90%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%84%21&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">312.0 MiB</td>
+<td class="text-center" data-timestamp="1494821825">2017-05-15 04:17</td>
+<td class="text-center" style="color: green;">15</td>
+<td class="text-center" style="color: red;">12</td>
+<td class="text-center">57</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_5" title="Art - Pictures">
+<img src="/static/img/icons/sukebei/1_5.png">
+</a>
+</td>
+<td><a href="/view/2304264">(同人CG集) [まいさい] サキュバスさんに誘惑魅了されて搾られたい!</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304264/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:GFROQ3BUC2UEWUW2Y6GA5TEUECREBVZD&amp;dn=%28%E5%90%8C%E4%BA%BACG%E9%9B%86%29+%5B%E3%81%BE%E3%81%84%E3%81%95%E3%81%84%5D+%E3%82%B5%E3%82%AD%E3%83%A5%E3%83%90%E3%82%B9%E3%81%95%E3%82%93%E3%81%AB%E8%AA%98%E6%83%91%E9%AD%85%E4%BA%86%E3%81%95%E3%82%8C%E3%81%A6%E6%90%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%84%21&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">178.2 MiB</td>
+<td class="text-center" data-timestamp="1494821547">2017-05-15 04:12</td>
+<td class="text-center" style="color: green;">9</td>
+<td class="text-center" style="color: red;">14</td>
+<td class="text-center">61</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304263">(COMIC1☆11) [まりも屋 (もりまりも)] エレちゃんとイチャラブH (Fate Grand Order)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304263/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:V6GL7EYDXSVWP2AJSDAT4LEYO6RCRECW&amp;dn=%28COMIC1%E2%98%8611%29+%5B%E3%81%BE%E3%82%8A%E3%82%82%E5%B1%8B+%28%E3%82%82%E3%82%8A%E3%81%BE%E3%82%8A%E3%82%82%29%5D+%E3%82%A8%E3%83%AC%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E3%82%A4%E3%83%81%E3%83%A3%E3%83%A9%E3%83%96H+%28Fate+Grand+Order%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">23.8 MiB</td>
+<td class="text-center" data-timestamp="1494821344">2017-05-15 04:09</td>
+<td class="text-center" style="color: green;">11</td>
+<td class="text-center" style="color: red;">8</td>
+<td class="text-center">74</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304262">[3xplanet] Heyzo_1483 Asahina Minami JAV UNCENSORED</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304262/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:YHB6Z2KSFCXEH5ZIVBGRQOOJC5HS3FVM&amp;dn=%5B3xplanet%5D+Heyzo_1483+Asahina+Minami+JAV+UNCENSORED&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">2.2 GiB</td>
+<td class="text-center" data-timestamp="1494816395">2017-05-15 02:46</td>
+<td class="text-center" style="color: green;">11</td>
+<td class="text-center" style="color: red;">31</td>
+<td class="text-center">60</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_1" title="Real Life - Photobooks / Pictures">
+<img src="/static/img/icons/sukebei/2_1.png">
+</a>
+</td>
+<td><a href="/view/2304261">Natsumi Louise - Rias Set</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304261/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:DCV3UULOH3EKW7SX5RMRFGHTROWF67O5&amp;dn=Natsumi+Louise+-+Rias+Set&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">200.2 MiB</td>
+<td class="text-center" data-timestamp="1494810121">2017-05-15 01:02</td>
+<td class="text-center" style="color: green;">5</td>
+<td class="text-center" style="color: red;">4</td>
+<td class="text-center">31</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304260">(C89) [フルスイングオトメ (タカヤマノン)] ゆうだちんちんそうどう (艦隊これくしょん -艦これ-) [DL版]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304260/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:R2735WU5ZSVNDSPAL6JWGLXYDRY2LQRU&amp;dn=%28C89%29+%5B%E3%83%95%E3%83%AB%E3%82%B9%E3%82%A4%E3%83%B3%E3%82%B0%E3%82%AA%E3%83%88%E3%83%A1+%28%E3%82%BF%E3%82%AB%E3%83%A4%E3%83%9E%E3%83%8E%E3%83%B3%29%5D+%E3%82%86%E3%81%86%E3%81%A0%E3%81%A1%E3%82%93%E3%81%A1%E3%82%93%E3%81%9D%E3%81%86%E3%81%A9%E3%81%86+%28%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93+-%E8%89%A6%E3%81%93%E3%82%8C-%29+%5BDL%E7%89%88%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">90.7 MiB</td>
+<td class="text-center" data-timestamp="1494805831">2017-05-14 23:50</td>
+<td class="text-center" style="color: green;">7</td>
+<td class="text-center" style="color: red;">4</td>
+<td class="text-center">56</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304259">(C91) [INDEX:410 (シンドウマユミ)] レムの幸福H論 (Re:ゼロから始める異世界生活) [DL版]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304259/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:BCU57MB227V6WFGXRETNMUDU42LRBD6P&amp;dn=%28C91%29+%5BINDEX%3A410+%28%E3%82%B7%E3%83%B3%E3%83%89%E3%82%A6%E3%83%9E%E3%83%A6%E3%83%9F%29%5D+%E3%83%AC%E3%83%A0%E3%81%AE%E5%B9%B8%E7%A6%8FH%E8%AB%96+%28Re%3A%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%8B%E7%95%B0%E4%B8%96%E7%95%8C%E7%94%9F%E6%B4%BB%29+%5BDL%E7%89%88%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">51.8 MiB</td>
+<td class="text-center" data-timestamp="1494805417">2017-05-14 23:43</td>
+<td class="text-center" style="color: green;">8</td>
+<td class="text-center" style="color: red;">10</td>
+<td class="text-center">61</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304258">★★★MAGURO-037.</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304258/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:BN5VTPWYN7YHISXLBDKEIUKXQOG6TROI&amp;dn=%E2%98%85%E2%98%85%E2%98%85MAGURO-037.&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">3.0 GiB</td>
+<td class="text-center" data-timestamp="1494804883">2017-05-14 23:34</td>
+<td class="text-center" style="color: green;">5</td>
+<td class="text-center" style="color: red;">19</td>
+<td class="text-center">20</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304257">(C87) [呆然乙女R (Anago)] 提督の○○大好き大鯨ちゃん (艦隊これくしょん -艦これ-) [DL版].zip</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304257/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:V732PVQNAPYGA7N5X2ZYZO26TIIWNMQW&amp;dn=%28C87%29+%5B%E5%91%86%E7%84%B6%E4%B9%99%E5%A5%B3R+%28Anago%29%5D+%E6%8F%90%E7%9D%A3%E3%81%AE%E2%97%8B%E2%97%8B%E5%A4%A7%E5%A5%BD%E3%81%8D%E5%A4%A7%E9%AF%A8%E3%81%A1%E3%82%83%E3%82%93+%28%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93+-%E8%89%A6%E3%81%93%E3%82%8C-%29+%5BDL%E7%89%88%5D.zip&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=http%3A%2F%2Fehtracker.org%2F1063164%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">6.4 MiB</td>
+<td class="text-center" data-timestamp="1494801437">2017-05-14 22:37</td>
+<td class="text-center" style="color: green;">6</td>
+<td class="text-center" style="color: red;">2</td>
+<td class="text-center">58</td>
+</tr>
+<tr class="success">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304256">[JAV] [Uncesored] Jukujo-club 6810 熟女倶楽部 6810 変態養成教育 強化講習 「指導員 雪乃」第１話</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304256/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:SN64B4VA33DTWQ3ZIQUP5MKMCYWXUOJZ&amp;dn=%5BJAV%5D+%5BUncesored%5D+Jukujo-club+6810+%E7%86%9F%E5%A5%B3%E5%80%B6%E6%A5%BD%E9%83%A8+6810+%E5%A4%89%E6%85%8B%E9%A4%8A%E6%88%90%E6%95%99%E8%82%B2+%E5%BC%B7%E5%8C%96%E8%AC%9B%E7%BF%92+%E3%80%8C%E6%8C%87%E5%B0%8E%E5%93%A1+%E9%9B%AA%E4%B9%83%E3%80%8D%E7%AC%AC%EF%BC%91%E8%A9%B1&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=http%3A%2F%2Fanidex.moe%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">604.2 MiB</td>
+<td class="text-center" data-timestamp="1494801323">2017-05-14 22:35</td>
+<td class="text-center" style="color: green;">15</td>
+<td class="text-center" style="color: red;">25</td>
+<td class="text-center">94</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304255">(C90) [呆然乙女R (Anago)] 長波サマーにお願いッ！ (艦隊これくしょん -艦これ-) [DL版].zip</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304255/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:HLJIZK6UNAEWGMJERMED52CWQZ4IKXOL&amp;dn=%28C90%29+%5B%E5%91%86%E7%84%B6%E4%B9%99%E5%A5%B3R+%28Anago%29%5D+%E9%95%B7%E6%B3%A2%E3%82%B5%E3%83%9E%E3%83%BC%E3%81%AB%E3%81%8A%E9%A1%98%E3%81%84%E3%83%83%EF%BC%81+%28%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93+-%E8%89%A6%E3%81%93%E3%82%8C-%29+%5BDL%E7%89%88%5D.zip&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=http%3A%2F%2Fehtracker.org%2F1063160%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">20.7 MiB</td>
+<td class="text-center" data-timestamp="1494801193">2017-05-14 22:33</td>
+<td class="text-center" style="color: green;">6</td>
+<td class="text-center" style="color: red;">2</td>
+<td class="text-center">43</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304254">(成年コミック) [雑誌] COMIC LO 2017年6月号 [DL版]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304254/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:ISHMCH33QWIR6TNO6GYS5CRHTYSC7EPZ&amp;dn=%28%E6%88%90%E5%B9%B4%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%29+%5B%E9%9B%91%E8%AA%8C%5D+COMIC+LO+2017%E5%B9%B46%E6%9C%88%E5%8F%B7+%5BDL%E7%89%88%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">208.3 MiB</td>
+<td class="text-center" data-timestamp="1494795185">2017-05-14 20:53</td>
+<td class="text-center" style="color: green;">23</td>
+<td class="text-center" style="color: red;">15</td>
+<td class="text-center">221</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304253">大きくなあれ!～○熟なアタマのオトナ姪っ子～(モーションコミック版)</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304253/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:7UTEWXNY63NNWKAWRLYHE2YIMF33OEZC&amp;dn=%E5%A4%A7%E3%81%8D%E3%81%8F%E3%81%AA%E3%81%82%E3%82%8C%21%EF%BD%9E%E2%97%8B%E7%86%9F%E3%81%AA%E3%82%A2%E3%82%BF%E3%83%9E%E3%81%AE%E3%82%AA%E3%83%88%E3%83%8A%E5%A7%AA%E3%81%A3%E5%AD%90%EF%BD%9E%28%E3%83%A2%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E7%89%88%29&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">267.3 MiB</td>
+<td class="text-center" data-timestamp="1494794966">2017-05-14 20:49</td>
+<td class="text-center" style="color: green;">10</td>
+<td class="text-center" style="color: red;">15</td>
+<td class="text-center">64</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_2" title="Art - Doujinshi">
+<img src="/static/img/icons/sukebei/1_2.png">
+</a>
+</td>
+<td><a href="/view/2304252">[LuckyStripe (あゆま紗由)] 大きくなあれ！～未熟なアタマのオトナ姪っ子～</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304252/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:ZEIP2LAHZXNUKU3G5CAUKRL72ALLXOBZ&amp;dn=%5BLuckyStripe+%28%E3%81%82%E3%82%86%E3%81%BE%E7%B4%97%E7%94%B1%29%5D+%E5%A4%A7%E3%81%8D%E3%81%8F%E3%81%AA%E3%81%82%E3%82%8C%EF%BC%81%EF%BD%9E%E6%9C%AA%E7%86%9F%E3%81%AA%E3%82%A2%E3%82%BF%E3%83%9E%E3%81%AE%E3%82%AA%E3%83%88%E3%83%8A%E5%A7%AA%E3%81%A3%E5%AD%90%EF%BD%9E&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">249.6 MiB</td>
+<td class="text-center" data-timestamp="1494793095">2017-05-14 20:18</td>
+<td class="text-center" style="color: green;">17</td>
+<td class="text-center" style="color: red;">5</td>
+<td class="text-center">129</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304251">(成年コミック) [西安] 玩具姫.zip</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304251/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:SNDMGD7ZMGVGTXBLYWNS6CVCPAYBGI3K&amp;dn=%28%E6%88%90%E5%B9%B4%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%29+%5B%E8%A5%BF%E5%AE%89%5D+%E7%8E%A9%E5%85%B7%E5%A7%AB.zip&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=http%3A%2F%2Fehtracker.org%2F1063121%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">139.9 MiB</td>
+<td class="text-center" data-timestamp="1494791637">2017-05-14 19:53</td>
+<td class="text-center" style="color: green;">9</td>
+<td class="text-center" style="color: red;">5</td>
+<td class="text-center">93</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304250">[Eng-Sub] [KH] Cleavage - クレイヴィジ Ep.01-02</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304250/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:BM36NXPQEOPCKWKFJKTTXFDNCB3HOY7P&amp;dn=%5BEng-Sub%5D+%5BKH%5D+Cleavage+-+%E3%82%AF%E3%83%AC%E3%82%A4%E3%83%B4%E3%82%A3%E3%82%B8+Ep.01-02&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">505.9 MiB</td>
+<td class="text-center" data-timestamp="1494791248">2017-05-14 19:47</td>
+<td class="text-center" style="color: green;">23</td>
+<td class="text-center" style="color: red;">25</td>
+<td class="text-center">137</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304249">[Eng-Sub] [HH] Oideyo! Shiritsu Yarimari Gakuen - (おいでよ! 私立ヤリま×り学園) Ep.01-02</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304249/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:44G74VV6UWUQ5A3N7XNYUEDMX2RKZ7CO&amp;dn=%5BEng-Sub%5D+%5BHH%5D+Oideyo%21+Shiritsu+Yarimari+Gakuen+-+%28%E3%81%8A%E3%81%84%E3%81%A7%E3%82%88%21+%E7%A7%81%E7%AB%8B%E3%83%A4%E3%83%AA%E3%81%BE%C3%97%E3%82%8A%E5%AD%A6%E5%9C%92%29+Ep.01-02&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">369.7 MiB</td>
+<td class="text-center" data-timestamp="1494791230">2017-05-14 19:47</td>
+<td class="text-center" style="color: green;">22</td>
+<td class="text-center" style="color: red;">32</td>
+<td class="text-center">166</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304248">[Eng-Sub] [KH] Jokei Kazoku Inbou (The Immorals) - 女系家族 ～淫謀～ Ep.01-02</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304248/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:N6QOE3USBAL34KGEEF36WKOFGLUTZVGP&amp;dn=%5BEng-Sub%5D+%5BKH%5D+Jokei+Kazoku+Inbou+%28The+Immorals%29+-+%E5%A5%B3%E7%B3%BB%E5%AE%B6%E6%97%8F+%EF%BD%9E%E6%B7%AB%E8%AC%80%EF%BD%9E+Ep.01-02&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">555.6 MiB</td>
+<td class="text-center" data-timestamp="1494791214">2017-05-14 19:46</td>
+<td class="text-center" style="color: green;">19</td>
+<td class="text-center" style="color: red;">26</td>
+<td class="text-center">117</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304247">[Eng-Sub] [English Subs] Milk Junkie Shimai Hen (Boobalicious) - Milk ? ジャンキー 姉妹編 Ep.01-04</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304247/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:NBAXYPXE6STPVYBBA674UIJFLCBZFWR5&amp;dn=%5BEng-Sub%5D+%5BEnglish+Subs%5D+Milk+Junkie+Shimai+Hen+%28Boobalicious%29+-+Milk+%E3%83%BB+%E3%82%B8%E3%83%A3%E3%83%B3%E3%82%AD%E3%83%BC+%E5%A7%89%E5%A6%B9%E7%B7%A8+Ep.01-04&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">893.4 MiB</td>
+<td class="text-center" data-timestamp="1494791197">2017-05-14 19:46</td>
+<td class="text-center" style="color: green;">19</td>
+<td class="text-center" style="color: red;">33</td>
+<td class="text-center">134</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304246">[H-Manga] [Anthology] Happiness Charge Puni Pedo! Koume Gumi - [アンソロジー ] はぴねすチャージ?ぷにぺどっ！小梅ぐみ [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304246/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:CX5CRY6TFAUYHJL4IWMNECOUDX6C4Y5N&amp;dn=%5BH-Manga%5D+%5BAnthology%5D+Happiness+Charge+Puni+Pedo%21+Koume+Gumi+-+%5B%E3%82%A2%E3%83%B3%E3%82%BD%E3%83%AD%E3%82%B8%E3%83%BC+%5D+%E3%81%AF%E3%81%B4%E3%81%AD%E3%81%99%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E3%83%BB%E3%81%B7%E3%81%AB%E3%81%BA%E3%81%A9%E3%81%A3%EF%BC%81%E5%B0%8F%E6%A2%85%E3%81%90%E3%81%BF+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">412.8 MiB</td>
+<td class="text-center" data-timestamp="1494791145">2017-05-14 19:45</td>
+<td class="text-center" style="color: green;">32</td>
+<td class="text-center" style="color: red;">35</td>
+<td class="text-center">203</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304245">[H-Manga] [Hatch] Loli Tissue - [ハッチ] ろりティッシュ [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304245/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:5S6QINLZMHME5KBUF2PWFVXPDLCVF2PA&amp;dn=%5BH-Manga%5D+%5BHatch%5D+Loli+Tissue+-+%5B%E3%83%8F%E3%83%83%E3%83%81%5D+%E3%82%8D%E3%82%8A%E3%83%86%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A5+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">515.4 MiB</td>
+<td class="text-center" data-timestamp="1494791126">2017-05-14 19:45</td>
+<td class="text-center" style="color: green;">38</td>
+<td class="text-center" style="color: red;">40</td>
+<td class="text-center">281</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304244">[H-Manga] [Kunisaki Kei] Kodomo Datte H Nano - [国崎蛍] 子供だってエッチなの [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304244/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:H3GD537DAI3PDLIYJM5IGTEI2XRK6EHU&amp;dn=%5BH-Manga%5D+%5BKunisaki+Kei%5D+Kodomo+Datte+H+Nano+-+%5B%E5%9B%BD%E5%B4%8E%E8%9B%8D%5D+%E5%AD%90%E4%BE%9B%E3%81%A0%E3%81%A3%E3%81%A6%E3%82%A8%E3%83%83%E3%83%81%E3%81%AA%E3%81%AE+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">554.3 MiB</td>
+<td class="text-center" data-timestamp="1494791109">2017-05-14 19:45</td>
+<td class="text-center" style="color: green;">39</td>
+<td class="text-center" style="color: red;">49</td>
+<td class="text-center">301</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304243">[H-Manga] [Takashiro Go-ya] Watashi no Oshikko Fubunritsu - [高城ごーや] 私のおしっこ不文律 [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304243/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:YIVRQEZ7B6KJ4DPWBL664YCAVFD7VVIX&amp;dn=%5BH-Manga%5D+%5BTakashiro+Go-ya%5D+Watashi+no+Oshikko+Fubunritsu+-+%5B%E9%AB%98%E5%9F%8E%E3%81%94%E3%83%BC%E3%82%84%5D+%E7%A7%81%E3%81%AE%E3%81%8A%E3%81%97%E3%81%A3%E3%81%93%E4%B8%8D%E6%96%87%E5%BE%8B+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">563.2 MiB</td>
+<td class="text-center" data-timestamp="1494790644">2017-05-14 19:37</td>
+<td class="text-center" style="color: green;">21</td>
+<td class="text-center" style="color: red;">34</td>
+<td class="text-center">165</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304242">[H-Manga] [Tsukiyoshi Hiroki] Shoujo-tachi no Sadism - [月吉ヒロキ] 少女達の茶道ism + イラストカード [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304242/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:IUCT6DUFUVEBATMXO7UUBLQZWWGA2X2G&amp;dn=%5BH-Manga%5D+%5BTsukiyoshi+Hiroki%5D+Shoujo-tachi+no+Sadism+-+%5B%E6%9C%88%E5%90%89%E3%83%92%E3%83%AD%E3%82%AD%5D+%E5%B0%91%E5%A5%B3%E9%81%94%E3%81%AE%E8%8C%B6%E9%81%93ism+%2B+%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">557.5 MiB</td>
+<td class="text-center" data-timestamp="1494790595">2017-05-14 19:36</td>
+<td class="text-center" style="color: green;">22</td>
+<td class="text-center" style="color: red;">41</td>
+<td class="text-center">205</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304241">[H-Manga] [NABURU] Ryosai Kenbo - [NABURU] 陵妻姦母 [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304241/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:TMWKUVNBHORVDX3LFD2ENHHIRLUCSTHV&amp;dn=%5BH-Manga%5D+%5BNABURU%5D+Ryosai+Kenbo+-+%5BNABURU%5D+%E9%99%B5%E5%A6%BB%E5%A7%A6%E6%AF%8D+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">647.0 MiB</td>
+<td class="text-center" data-timestamp="1494790578">2017-05-14 19:36</td>
+<td class="text-center" style="color: green;">30</td>
+<td class="text-center" style="color: red;">35</td>
+<td class="text-center">179</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=1_4" title="Art - Manga">
+<img src="/static/img/icons/sukebei/1_4.png">
+</a>
+</td>
+<td><a href="/view/2304240">[H-Manga] [Shinjima Saki] Nokon Chitai ~Bloomer Sakuhin senshuu~ - [心島咲] 濃紺痴態～ブルーマー作品選集～ [Japanese]</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304240/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:4VUREWOSSC2PMXFGWMPSRCJVUPQJZ5C5&amp;dn=%5BH-Manga%5D+%5BShinjima+Saki%5D+Nokon+Chitai+%7EBloomer+Sakuhin+senshuu%7E+-+%5B%E5%BF%83%E5%B3%B6%E5%92%B2%5D+%E6%BF%83%E7%B4%BA%E7%97%B4%E6%85%8B%EF%BD%9E%E3%83%96%E3%83%AB%E3%83%BC%E3%83%9E%E3%83%BC%E4%BD%9C%E5%93%81%E9%81%B8%E9%9B%86%EF%BD%9E+%5BJapanese%5D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">582.7 MiB</td>
+<td class="text-center" data-timestamp="1494790563">2017-05-14 19:36</td>
+<td class="text-center" style="color: green;">12</td>
+<td class="text-center" style="color: red;">29</td>
+<td class="text-center">141</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304239">Natural Remedy animation 3D</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304239/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:FDOFZXMXQEU2JO2DS5B4DBB2NA4IQ3JF&amp;dn=Natural+Remedy+animation+3D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.ccc.de%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">23.8 MiB</td>
+<td class="text-center" data-timestamp="1494787722">2017-05-14 18:48</td>
+<td class="text-center" style="color: green;">4</td>
+<td class="text-center" style="color: red;">2</td>
+<td class="text-center">28</td>
+</tr>
+<tr class="default">
+<td style="padding:0 4px;">
+<a href="/?c=1_1" title="Art - Anime">
+<img src="/static/img/icons/sukebei/1_1.png">
+</a>
+</td>
+<td><a href="/view/2304238">Two Lesbian Whores 3D</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304238/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:5DQNS752LQZQ26Y3EJYGVFC6WUMOPUO4&amp;dn=Two+Lesbian+Whores+3D&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.ccc.de%3A80%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">28.5 MiB</td>
+<td class="text-center" data-timestamp="1494787220">2017-05-14 18:40</td>
+<td class="text-center" style="color: green;">2</td>
+<td class="text-center" style="color: red;">5</td>
+<td class="text-center">31</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304237">[BLK-310] 爆乳Hカップ伝説の元ヤリマン黒ギャル妻超アゲアゲAVデビュー！！ 成海あすか</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304237/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:G64Y64FW5P24CX6OVMEYG5MDWSGOMJXL&amp;dn=%5BBLK-310%5D+%E7%88%86%E4%B9%B3H%E3%82%AB%E3%83%83%E3%83%97%E4%BC%9D%E8%AA%AC%E3%81%AE%E5%85%83%E3%83%A4%E3%83%AA%E3%83%9E%E3%83%B3%E9%BB%92%E3%82%AE%E3%83%A3%E3%83%AB%E5%A6%BB%E8%B6%85%E3%82%A2%E3%82%B2%E3%82%A2%E3%82%B2AV%E3%83%87%E3%83%93%E3%83%A5%E3%83%BC%EF%BC%81%EF%BC%81+%E6%88%90%E6%B5%B7%E3%81%82%E3%81%99%E3%81%8B&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.4 GiB</td>
+<td class="text-center" data-timestamp="1494786314">2017-05-14 18:25</td>
+<td class="text-center" style="color: green;">41</td>
+<td class="text-center" style="color: red;">71</td>
+<td class="text-center">252</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304236">[MIAE-053] 痙攣絶頂サイレントレ×プ 助けを呼んで乱暴されたレッテルを貼られるのが怖くて声を押し殺して犯された敏感女子校生 姫川ゆうな</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304236/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:X5FOE6YDBGNT73PQPYE77BPEKR7J36PE&amp;dn=%5BMIAE-053%5D+%E7%97%99%E6%94%A3%E7%B5%B6%E9%A0%82%E3%82%B5%E3%82%A4%E3%83%AC%E3%83%B3%E3%83%88%E3%83%AC%C3%97%E3%83%97+%E5%8A%A9%E3%81%91%E3%82%92%E5%91%BC%E3%82%93%E3%81%A7%E4%B9%B1%E6%9A%B4%E3%81%95%E3%82%8C%E3%81%9F%E3%83%AC%E3%83%83%E3%83%86%E3%83%AB%E3%82%92%E8%B2%BC%E3%82%89%E3%82%8C%E3%82%8B%E3%81%AE%E3%81%8C%E6%80%96%E3%81%8F%E3%81%A6%E5%A3%B0%E3%82%92%E6%8A%BC%E3%81%97%E6%AE%BA%E3%81%97%E3%81%A6%E7%8A%AF%E3%81%95%E3%82%8C%E3%81%9F%E6%95%8F%E6%84%9F%E5%A5%B3%E5%AD%90%E6%A0%A1%E7%94%9F+%E5%A7%AB%E5%B7%9D%E3%82%86%E3%81%86%E3%81%AA&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.1 GiB</td>
+<td class="text-center" data-timestamp="1494786295">2017-05-14 18:24</td>
+<td class="text-center" style="color: green;">25</td>
+<td class="text-center" style="color: red;">36</td>
+<td class="text-center">141</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304235">[MVSD-325] 資産家オヤジならデキる！援交JK大人買い中出し 栄川乃亜 さとう愛理</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304235/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:KV5HO5WVJT2PRMLQ5YGTUKFAMGV6I4CV&amp;dn=%5BMVSD-325%5D+%E8%B3%87%E7%94%A3%E5%AE%B6%E3%82%AA%E3%83%A4%E3%82%B8%E3%81%AA%E3%82%89%E3%83%87%E3%82%AD%E3%82%8B%EF%BC%81%E6%8F%B4%E4%BA%A4JK%E5%A4%A7%E4%BA%BA%E8%B2%B7%E3%81%84%E4%B8%AD%E5%87%BA%E3%81%97+%E6%A0%84%E5%B7%9D%E4%B9%83%E4%BA%9C+%E3%81%95%E3%81%A8%E3%81%86%E6%84%9B%E7%90%86&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.1 GiB</td>
+<td class="text-center" data-timestamp="1494786280">2017-05-14 18:24</td>
+<td class="text-center" style="color: green;">26</td>
+<td class="text-center" style="color: red;">55</td>
+<td class="text-center">173</td>
+</tr>
+<tr class="danger">
+<td style="padding:0 4px;">
+<a href="/?c=2_2" title="Real Life - Videos">
+<img src="/static/img/icons/sukebei/2_2.png">
+</a>
+</td>
+<td><a href="/view/2304234">[MEYD-253] 今日は孕むまでナカに出して… 並木塔子</a></td>
+<td style="white-space: nowrap;text-align: center;">
+<a href="/view/2304234/torrent"><i class="fa fa-fw fa-download"></i></a> <a href="magnet:?xt=urn:btih:YLY5ZO2QURI7OIWEWKKICL2NHN6Z3ZVK&amp;dn=%5BMEYD-253%5D+%E4%BB%8A%E6%97%A5%E3%81%AF%E5%AD%95%E3%82%80%E3%81%BE%E3%81%A7%E3%83%8A%E3%82%AB%E3%81%AB%E5%87%BA%E3%81%97%E3%81%A6%E2%80%A6+%E4%B8%A6%E6%9C%A8%E5%A1%94%E5%AD%90&amp;tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"><i class="fa fa-fw fa-magnet"></i></a>
+</td>
+<td class="text-center">1.4 GiB</td>
+<td class="text-center" data-timestamp="1494786264">2017-05-14 18:24</td>
+<td class="text-center" style="color: green;">15</td>
+<td class="text-center" style="color: red;">52</td>
+<td class="text-center">87</td>
+</tr>
+</tbody>
+</table>
+</div>
+<center>
+<nav>
+<ul class="pagination">
+<li class="disabled"><a href="#">&laquo;</a></li> <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+<li><a href="/?p=2">2</a></li>
+<li><a href="/?p=3">3</a></li>
+<li><a href="/?p=4">4</a></li>
+<li><a href="/?p=5">5</a></li>
+<li><a href="/?p=6">6</a></li>
+<li><a href="/?p=2">&raquo;</a></li></ul>
+</nav>
+</center>
+</div>  
+<footer style="text-align: center;">
+<p>Dark Mode: <a href="#" id="themeToggle">Toggle</a></p>
+<p>Commit: <a href="https://github.com/nyaadevs/nyaa/tree/2c013090e03e6efe4ee95bb1821df84b43f9d491">2c01309</a></p>
+</footer>
+</body>
+</html>
