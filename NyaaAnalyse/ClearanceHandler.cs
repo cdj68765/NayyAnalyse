@@ -29,7 +29,7 @@ namespace CloudFlareUtilities
         public string IDCookieValue = string.Empty;
         public string ClearanceCookieValue = string.Empty;
 
-        private readonly CookieContainer _cookies = new CookieContainer();
+        public readonly CookieContainer _cookies = new CookieContainer();
         private readonly HttpClient _client;
 
         /// <summary>
@@ -85,7 +85,6 @@ namespace CloudFlareUtilities
             InjectCookies(request);
 
             var response = await base.SendAsync(request, cancellationToken);//调用原始API
-
             // (Re)try clearance if required.
             var retries = 0;
             while (IsClearanceRequired(response) && (MaxRetries < 0 || retries <= MaxRetries))
@@ -94,7 +93,6 @@ namespace CloudFlareUtilities
                 await PassClearance(response, cancellationToken);
                 InjectCookies(request);
                 response = await base.SendAsync(request, cancellationToken);
-
                 retries++;
             }
 
@@ -108,7 +106,7 @@ namespace CloudFlareUtilities
         private static void EnsureClientHeader(HttpRequestMessage request)
         {
             if (!request.Headers.UserAgent.Any())
-                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("Client", "2.0"));
+                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("Mozilla", "5.0"));
         }
 
         private static bool IsClearanceRequired(HttpResponseMessage response)
