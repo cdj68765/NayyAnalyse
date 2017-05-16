@@ -29,7 +29,7 @@ namespace NyaaAnalyse
             foreach (var item in hrefs2)
             {
                 var temp = HtmlNode.CreateNode(item.OuterHtml);
-                var td = temp.SelectNodes(@"//td");
+                var Class = item.Attributes["class"].Value;
                 var title = temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value;
                 var Imgsrc = temp.SelectSingleNode("//img").Attributes["src"].Value;
                 var Adress = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
