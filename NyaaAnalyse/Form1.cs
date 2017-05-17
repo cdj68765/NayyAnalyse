@@ -24,12 +24,17 @@ namespace NyaaAnalyse
         public Form1()
         {
             InitializeComponent();
-             SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Documents\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
-             HtmlDoc.LoadHtml(Resource1.Html);
-             c.Open();
-             SqlCommand Cmd = new SqlCommand();
-             Cmd.Connection = c;
-             Cmd.CommandType = CommandType.Text;
+            // SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Documents\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+            HtmlDoc.LoadHtml(Resource1.Html);
+            c.Open();
+            SqlCommand Cmd = new SqlCommand();
+            Cmd.Connection = c;
+            Cmd.CommandType = CommandType.Text;
+            Cmd.CommandText = "delete from torrent";
+            Cmd.ExecuteScalar();
+            /* Cmd.CommandText = "create table torrent(CLass varchar(100),title varchar(100),ImageSrc char(100),Address varchar(100),Name varchar(100),Torrent char(100),Magnet varchar(1024),Size varchar(100),Time char(100),Up varchar(100),Leeches varchar(100),Complete char(100))";
+             Cmd.ExecuteScalar();*/
             HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
             foreach (var item in hrefs2)
             {
@@ -55,8 +60,56 @@ namespace NyaaAnalyse
                 var Up = temp.SelectSingleNode(@"//td[6]").InnerHtml;
                 var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
                 var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
-             var TB= new   StringBuilder();
+                var TB = new StringBuilder();
                 TB.Append(@"insert into torrent(CLass,title,ImageSrc,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
+                /*  TB.Append("'");
+                  TB.Append(Class);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(title);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Imgsrc);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Address);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(name);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Torrent);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Magnet);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Size);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Time);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Up);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Leeches);
+                  TB.Append("',");
+
+                  TB.Append("'");
+                  TB.Append(Complete);
+                  TB.Append("')");*/
+
                 TB.Append("'");
                 TB.Append(Class);
                 TB.Append("',");
@@ -73,9 +126,7 @@ namespace NyaaAnalyse
                 TB.Append(Address);
                 TB.Append("',");
 
-                TB.Append("'");
-                TB.Append(name);
-                TB.Append("',");
+                TB.Append("N\'"+name+"\',");
 
                 TB.Append("'");
                 TB.Append(Torrent);
@@ -85,6 +136,8 @@ namespace NyaaAnalyse
                 TB.Append(Magnet);
                 TB.Append("',");
 
+
+
                 TB.Append("'");
                 TB.Append(Size);
                 TB.Append("',");
@@ -92,6 +145,7 @@ namespace NyaaAnalyse
                 TB.Append("'");
                 TB.Append(Time);
                 TB.Append("',");
+
 
                 TB.Append("'");
                 TB.Append(Up);
@@ -106,7 +160,9 @@ namespace NyaaAnalyse
                 TB.Append("')");
                 Cmd.CommandText = TB.ToString();
                 Cmd.ExecuteNonQuery();
+
             }
+            c.Close();
             url = "https://sukebei.nyaa.si/";
             // go();
         }
