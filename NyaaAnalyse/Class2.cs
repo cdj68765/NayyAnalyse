@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -17,11 +15,12 @@ namespace NitinJS
                 this.Headers[keyVal.Key] = keyVal.Value;
             }
         }
+
         public SmsWebClient(bool flgAddContentType = true)
             : this(new CookieContainer(), flgAddContentType)
         {
-
         }
+
         public SmsWebClient(CookieContainer container, bool flgAddContentType = true)
         {
             this.Encoding = Encoding.UTF8;

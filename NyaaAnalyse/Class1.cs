@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Collections;
+using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
-using NyaaAnalyse;
+using System.Web;
 
 namespace Cloudflare_Evader
 {
@@ -22,7 +21,7 @@ namespace Cloudflare_Evader
 
             //Download the original page
             var uri = new Uri(url);
-            HttpWebRequest req =(HttpWebRequest) WebRequest.Create(url);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0";
             //Try to make the usual request first. If this fails with a 503, the page is behind cloudflare.
             try
@@ -41,7 +40,7 @@ namespace Cloudflare_Evader
                 //If we get on the landing page, Cloudflare gives us a User-ID token with the cookie. We need to save that and use it in the next request.
                 var cookie_container = new CookieContainer();
                 //using a custom function because ex.Response.Cookies returns an empty set ALTHOUGH cookies were sent back.
-                var initial_cookies = GetAllCookiesFromHeader(ex.Response.Headers["Set-Cookie"], uri.Host); 
+                var initial_cookies = GetAllCookiesFromHeader(ex.Response.Headers["Set-Cookie"], uri.Host);
                 foreach (Cookie init_cookie in initial_cookies)
                     cookie_container.Add(init_cookie);
 
@@ -56,7 +55,7 @@ namespace Cloudflare_Evader
                 //Format the javascript..
                 builder = Regex.Replace(builder, @"[\n\\']", "");
 
-                //Execute it. 
+                //Execute it.
                 long solved = long.Parse(JSEngine.Execute(builder).GetCompletionValue().ToObject().ToString());
                 solved += uri.Host.Length; //add the length of the domain to it.
 
@@ -74,7 +73,7 @@ namespace Cloudflare_Evader
                 uri_builder.Query = query.ToString();
 
                 //Create the actual request to get the security clearance cookie
-                HttpWebRequest cookie_req = (HttpWebRequest) WebRequest.Create(uri_builder.Uri);
+                HttpWebRequest cookie_req = (HttpWebRequest)WebRequest.Create(uri_builder.Uri);
                 cookie_req.AllowAutoRedirect = false;
                 cookie_req.CookieContainer = cookie_container;
                 cookie_req.Referer = url;
@@ -109,9 +108,10 @@ namespace Cloudflare_Evader
             }
         }
 
-        /* Credit goes to https://stackoverflow.com/questions/15103513/httpwebresponse-cookies-empty-despite-set-cookie-header-no-redirect 
-           (user https://stackoverflow.com/users/541404/cameron-tinker) for these functions 
+        /* Credit goes to https://stackoverflow.com/questions/15103513/httpwebresponse-cookies-empty-despite-set-cookie-header-no-redirect
+           (user https://stackoverflow.com/users/541404/cameron-tinker) for these functions
         */
+
         public static CookieCollection GetAllCookiesFromHeader(string strHeader, string strHost)
         {
             ArrayList al = new ArrayList();
@@ -221,6 +221,7 @@ namespace Cloudflare_Evader
 
     /*Credit goes to  https://stackoverflow.com/questions/1777221/using-cookiecontainer-with-webclient-class
  (user https://stackoverflow.com/users/129124/pavel-savara) */
+
     public class WebClientEx : WebClient
     {
         public WebClientEx(CookieContainer container)

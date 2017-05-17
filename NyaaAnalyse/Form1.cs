@@ -13,18 +13,23 @@ using System.Net.Http;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Data.SqlClient;
 
 namespace NyaaAnalyse
 {
     public partial class Form1 : Form
     {
+        private HtmlAgilityPack.HtmlDocument HtmlDoc = new HtmlAgilityPack.HtmlDocument();
 
-
-        HtmlAgilityPack.HtmlDocument HtmlDoc = new HtmlAgilityPack.HtmlDocument();
         public Form1()
         {
             InitializeComponent();
-            HtmlDoc.LoadHtml(Resource1.Html);
+             SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Documents\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+             HtmlDoc.LoadHtml(Resource1.Html);
+             c.Open();
+             SqlCommand Cmd = new SqlCommand();
+             Cmd.Connection = c;
+             Cmd.CommandType = CommandType.Text;
             HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
             foreach (var item in hrefs2)
             {
@@ -32,30 +37,83 @@ namespace NyaaAnalyse
                 var Class = item.Attributes["class"].Value;
                 var title = temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value;
                 var Imgsrc = temp.SelectSingleNode("//img").Attributes["src"].Value;
-                var Adress = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                var Address = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
                 var name = temp.SelectSingleNode(@"//td[2]").InnerText;
                 var Torrent = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                var Magnet = "";
                 if (Torrent.StartsWith("magnet"))
                 {
-                    var Magnet = Torrent;
+                    Magnet = Torrent;
                     Torrent = "";
                 }
                 else
                 {
-                    var Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
+                    Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
                 }
                 var Size = temp.SelectSingleNode(@"//td[4]").InnerHtml;
                 var Time = temp.SelectSingleNode(@"//td[5]").InnerHtml;
                 var Up = temp.SelectSingleNode(@"//td[6]").InnerHtml;
                 var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
                 var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
+             var TB= new   StringBuilder();
+                TB.Append(@"insert into torrent(CLass,title,ImageSrc,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
+                TB.Append("'");
+                TB.Append(Class);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(title);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Imgsrc);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Address);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(name);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Torrent);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Magnet);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Size);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Time);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Up);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Leeches);
+                TB.Append("',");
+
+                TB.Append("'");
+                TB.Append(Complete);
+                TB.Append("')");
+                Cmd.CommandText = TB.ToString();
+                Cmd.ExecuteNonQuery();
             }
             url = "https://sukebei.nyaa.si/";
             // go();
-
         }
-        string url;
-        async void go()
+
+        private string url;
+
+        private async void go()
         {
             try
             {
@@ -66,7 +124,7 @@ namespace NyaaAnalyse
                     foreach (var item in cookies.GetCookies(new Uri("https://sukebei.nyaa.si/")).Cast<Cookie>().ToList())
                     {
                         handler._cookies.Add(item);
-                    } 
+                    }
                 }
                 HttpClient client = new HttpClient(handler);
                 var content = await client.GetStringAsync(url);
@@ -96,6 +154,7 @@ namespace NyaaAnalyse
             {
             }
         }
+
         public static void WriteCookiesToDisk(string file, CookieContainer cookieJar)
         {
             using (Stream stream = File.Create(file))
@@ -104,7 +163,6 @@ namespace NyaaAnalyse
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     formatter.Serialize(stream, cookieJar);
-
                 }
                 catch (Exception)
                 {

@@ -27,7 +27,7 @@ namespace CloudFlareUtilities
             var jschlAnswer = DecodeSecretNumber(challengePageContent, targetHost);
             var jschlVc = Regex.Match(challengePageContent, "name=\"jschl_vc\" value=\"(?<jschl_vc>[^\"]+)").Groups["jschl_vc"].Value;
             var pass = Regex.Match(challengePageContent, "name=\"pass\" value=\"(?<pass>[^\"]+)").Groups["pass"].Value;
-            var clearancePage = Regex.Match(challengePageContent, "id=\"challenge-form\" action=\"(?<action>[^\"]+)").Groups["action"].Value;            
+            var clearancePage = Regex.Match(challengePageContent, "id=\"challenge-form\" action=\"(?<action>[^\"]+)").Groups["action"].Value;
 
             return new ChallengeSolution(clearancePage, jschlVc, pass, jschlAnswer);
         }
@@ -79,12 +79,16 @@ namespace CloudFlareUtilities
             {
                 case "+":
                     return number + operand;
+
                 case "-":
                     return number - operand;
+
                 case "*":
                     return number * operand;
+
                 case "/":
                     return number / operand;
+
                 default:
                     throw new ArgumentOutOfRangeException($"Unknown operator: {op}");
             }

@@ -8,7 +8,9 @@ namespace CloudFlareUtilities
     /// </summary>
     public class CloudFlareClearanceException : HttpRequestException
     {
-        public CloudFlareClearanceException(int attempts) : this(attempts, $"Clearance failed after {attempts} attempt(s).") { }
+        public CloudFlareClearanceException(int attempts) : this(attempts, $"Clearance failed after {attempts} attempt(s).")
+        {
+        }
 
         public CloudFlareClearanceException(int attempts, string message) : base(message)
         {

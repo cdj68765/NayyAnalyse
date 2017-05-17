@@ -44,7 +44,7 @@ namespace CloudFlareUtilities
         public override int GetHashCode()
         {
             return ClearanceQuery.GetHashCode();
-        }       
+        }
 
         public bool Equals(ChallengeSolution other)
         {

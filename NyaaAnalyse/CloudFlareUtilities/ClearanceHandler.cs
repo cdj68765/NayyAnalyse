@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,13 +28,15 @@ namespace CloudFlareUtilities
         public string IDCookieValue = string.Empty;
         public string ClearanceCookieValue = string.Empty;
 
-        private readonly CookieContainer _cookies = new CookieContainer();
+        public readonly CookieContainer _cookies = new CookieContainer();
         private readonly HttpClient _client;
 
         /// <summary>
         /// Creates a new instance of the <see cref="ClearanceHandler"/> class with a <see cref="HttpClientHandler"/> as inner handler.
         /// </summary>
-        public ClearanceHandler() : this(new HttpClientHandler()) { }
+        public ClearanceHandler() : this(new HttpClientHandler())
+        {
+        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="ClearanceHandler"/> class with a specific inner handler.
@@ -49,7 +50,6 @@ namespace CloudFlareUtilities
                 CookieContainer = _cookies
             });
         }
-
 
         /// <summary>
         /// Gets or sets the number of clearance retries, if clearance fails.
@@ -82,18 +82,15 @@ namespace CloudFlareUtilities
             EnsureClientHeader(request);
             InjectCookies(request);
 
-            var response = await base.SendAsync(request, cancellationToken);
-
+            var response = await base.SendAsync(request, cancellationToken);//调用原始API
             // (Re)try clearance if required.
             var retries = 0;
             while (IsClearanceRequired(response) && (MaxRetries < 0 || retries <= MaxRetries))
             {
                 cancellationToken.ThrowIfCancellationRequested();
-
                 await PassClearance(response, cancellationToken);
                 InjectCookies(request);
                 response = await base.SendAsync(request, cancellationToken);
-
                 retries++;
             }
 
@@ -107,7 +104,7 @@ namespace CloudFlareUtilities
         private static void EnsureClientHeader(HttpRequestMessage request)
         {
             if (!request.Headers.UserAgent.Any())
-                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("Client", "1.0"));
+                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("Mozilla", "5.0"));
         }
 
         private static bool IsClearanceRequired(HttpResponseMessage response)
@@ -123,7 +120,6 @@ namespace CloudFlareUtilities
             var cookies = _cookies.GetCookies(request.RequestUri).Cast<Cookie>().ToList();
             var idCookie = cookies.FirstOrDefault(c => c.Name == IdCookieName);
             var clearanceCookie = cookies.FirstOrDefault(c => c.Name == ClearanceCookieName);
-            
 
             if (idCookie == null || clearanceCookie == null)
                 return;
@@ -147,15 +143,15 @@ namespace CloudFlareUtilities
         {
             SaveIdCookie(response);
 
-            var pageContent = await response.Content.ReadAsStringAsync();
-            var scheme = response.RequestMessage.RequestUri.Scheme;
-            var host = response.RequestMessage.RequestUri.Host;
-            var port = response.RequestMessage.RequestUri.Port;
-            var solution = ChallengeSolver.Solve(pageContent, host);
+            var pageContent = await response.Content.ReadAsStringAsync();//CloudFlare页面获得
+            var scheme = response.RequestMessage.RequestUri.Scheme;//https
+            var host = response.RequestMessage.RequestUri.Host;//suicibei.nyaa.si
+            var port = response.RequestMessage.RequestUri.Port;//443
+            var solution = ChallengeSolver.Solve(pageContent, host);//获得验证信息
 
-            var clearanceUri = $"{scheme}://{host}:{port}{solution.ClearanceQuery}";
+            var clearanceUri = $"{scheme}://{host}:{port}{solution.ClearanceQuery}";//验证完毕
 
-            await Task.Delay(5000, cancellationToken);
+            await Task.Delay(5000, cancellationToken);//等待5S
 
             var clearanceRequest = new HttpRequestMessage(HttpMethod.Get, clearanceUri);
 
@@ -163,7 +159,7 @@ namespace CloudFlareUtilities
             if (response.RequestMessage.Headers.TryGetValues(HttpHeader.UserAgent, out userAgent))
                 clearanceRequest.Headers.Add(HttpHeader.UserAgent, userAgent);
 
-            await _client.SendAsync(clearanceRequest, cancellationToken);
+            await _client.SendAsync(clearanceRequest, cancellationToken);//得到答案后再一次获得。
         }
 
         private void SaveIdCookie(HttpResponseMessage response)
