@@ -24,8 +24,8 @@ namespace NyaaAnalyse
         public Form1()
         {
             InitializeComponent();
-            // SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Documents\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
-            SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Source\Repos\NayyAnalyse\NyaaAnalyse\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+             SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Documents\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+            //SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Source\Repos\NayyAnalyse\NyaaAnalyse\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
             HtmlDoc.LoadHtml(Resource1.Html);
             c.Open();
             SqlCommand Cmd = new SqlCommand();
@@ -33,7 +33,7 @@ namespace NyaaAnalyse
             Cmd.CommandType = CommandType.Text;
          /*   Cmd.CommandText = "delete from torrent";
             Cmd.ExecuteScalar();*/
-            /* Cmd.CommandText = "create table torrent(CLass varchar(100),title varchar(100),ImageSrc char(100),Address varchar(100),Name varchar(100),Torrent char(100),Magnet varchar(1024),Size varchar(100),Time char(100),Up varchar(100),Leeches varchar(100),Complete char(100))";
+             /*Cmd.CommandText = "create table torrent(CLass varchar(100),title varchar(100),ImageSrc char(100),Address varchar(100),Name varchar(100),Torrent char(100),Magnet varchar(1024),Size varchar(100),Time char(100),Up varchar(100),Leeches varchar(100),Complete char(100))";
              Cmd.ExecuteScalar();*/
             HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
             foreach (var item in hrefs2)

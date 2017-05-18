@@ -70,10 +70,7 @@ namespace NyaaAnalyse {
         ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
         ///&lt;link rel=&quot;shortcut icon&quot; type=&quot;image/png&quot; href=&quot;/static/favicon.png&quot;&gt;
         ///&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/static/favicon.png&quot;&gt;
-        ///&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://sukebei.nyaa.si/?page=rss&quot;&gt;
-        /// 
-        /// 
-        ///&lt;link h [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://sukebei.nyaa.si/?page=rss&amp;amp; [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string Html {
             get {
