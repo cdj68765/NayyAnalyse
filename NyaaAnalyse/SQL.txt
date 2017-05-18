@@ -1,0 +1,45 @@
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+// 创建数据库文件
+File.Delete("test1.db3");
+SQLiteConnection.CreateFile("test1.db3");
+DbProviderFactory factory = SQLiteFactory.Instance;
+using (DbConnection conn = factory.CreateConnection())
+{
+  // 连接数据库
+  conn.ConnectionString = "Data Source=test1.db3";
+  conn.Open();
+  // 创建数据表
+  string sql = "create table [test1] ([id] INTEGER PRIMARY KEY, [s] TEXT COLLATE NOCASE)";
+  DbCommand cmd = conn.CreateCommand();
+  cmd.Connection = conn;
+  cmd.CommandText = sql;
+  cmd.ExecuteNonQuery();
+  // 添加参数
+  cmd.Parameters.Add(cmd.CreateParameter());
+  
+  // 开始计时
+  Stopwatch watch = new Stopwatch();
+  watch.Start();
+  
+  DbTransaction trans = conn.BeginTransaction(); // <-------------------
+  try 
+  {
+    // 连续插入1000条记录
+    for (int i = 0; i < 1000; i++)
+    {
+      cmd.CommandText = "insert into [test1] ([s]) values (?)";
+      cmd.Parameters[0].Value = i.ToString();
+      cmd.ExecuteNonQuery();
+    }
+    trans.Commit(); // <-------------------
+  }
+  catch
+  {
+    trans.Rollback(); // <-------------------
+    throw; // <-------------------
+  }
+  // 停止计时
+  watch.Stop();
+  Console.WriteLine(watch.Elapsed);
