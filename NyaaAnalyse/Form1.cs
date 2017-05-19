@@ -22,7 +22,7 @@ namespace NyaaAnalyse
     public partial class Form1 : DarkUI.Forms.DarkForm
     {
         private HtmlAgilityPack.HtmlDocument HtmlDoc = new HtmlAgilityPack.HtmlDocument();
-        const string DeleTable = "DROP  TABLE  torrent";//删除表;
+        const string DeleTable = "DROP  TABLE  NyaaDB";//删除表;
         public Form1()
         {
             InitializeComponent();
@@ -34,29 +34,12 @@ namespace NyaaAnalyse
                 SQLiteConnection.CreateFile("Nyaa");
                 connection = new SQLiteConnection(@"data source=.\Nyaa");
                 connection.Open();
-                var trans = connection.BeginTransaction();
                 command = new SQLiteCommand(connection);
-                command.CommandText = "CREATE TABLE  Anime(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.CommandText = "CREATE TABLE  NyaaDB(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char,OntherData BLOB)";
                 command.ExecuteNonQuery();
-                command.CommandText = "CREATE TABLE  AV(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.CommandText = "CREATE UNIQUE INDEX NyaaDBIndex ON NyaaDB(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete,OntherData)";
                 command.ExecuteNonQuery();
-                command.CommandText = "CREATE TABLE  Doujinshi(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE TABLE  Game(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE TABLE  Manga(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX AnimeIndex ON Anime(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX AVIndex ON AV(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX DoujinshiIndex ON Doujinshi(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX GameIndex ON Game(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-                command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX MangaIndex ON Manga(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-                command.ExecuteNonQuery();
-                trans.Commit();
+
             }
             else
             {
@@ -106,9 +89,9 @@ namespace NyaaAnalyse
                         var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
                         var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
                         var TB = new StringBuilder();
-                        TB.Append(@"insert or ignore into torrent(CLass,title,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
+                        TB.Append(@"insert or ignore into NyaaDB(CLass,title,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
                         TB.Append("'");
-                        TB.Append(new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(10000));
+                        TB.Append(Class);
                         TB.Append("',");
 
                         TB.Append("'");
