@@ -13,52 +13,65 @@ using System.Net.Http;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
-using System.Data.Common;
 
 namespace NyaaAnalyse
 {
     public partial class Form1 : DarkUI.Forms.DarkForm
     {
         private HtmlAgilityPack.HtmlDocument HtmlDoc = new HtmlAgilityPack.HtmlDocument();
-
+        const string DeleTable = "DROP  TABLE  torrent";//删除表;
         public Form1()
         {
             InitializeComponent();
-            SQLiteConnection.CreateFile("Nyaa");
-            SQLiteConnection connection = new SQLiteConnection(@"data source=C:\Users\cdj68\Source\Repos\NayyAnalyse\NyaaAnalyse\Nyaa");
-            connection.Open();
-            SQLiteCommand command = new SQLiteCommand(connection);
-            /* using (SQLiteCommand command = new SQLiteCommand(connection))
-             {
-                 command.CommandText = "CREATE TABLE torrent(CLass title ImageSrc Address Name Torrent Size Time Up Leeches Complete)";
-                 command.ExecuteNonQuery();
-             }*/
-            /* command.CommandText = "DROP  TABLE  torrent";//删除表
-             command.ExecuteScalar();*/
-           command.CommandText = "create table torrent(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
-            command.ExecuteScalar();
-         //  command.CommandText = "CREATE UNIQUE INDEX idx_something ON  torrent(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
-          //  command.ExecuteScalar();
-            //SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
-            //SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\m10\Source\Repos\NayyAnalyse\NyaaAnalyse\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+            #region 初始化数据库，建立表单
+            SQLiteConnection connection = null;
+            SQLiteCommand command = null;
+            if (!new FileInfo(@".\Nyaa").Exists)
+            {
+                SQLiteConnection.CreateFile("Nyaa");
+                connection = new SQLiteConnection(@"data source=.\Nyaa");
+                connection.Open();
+                var trans = connection.BeginTransaction();
+                command = new SQLiteCommand(connection);
+                command.CommandText = "CREATE TABLE  Anime(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE TABLE  AV(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE TABLE  Doujinshi(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE TABLE  Game(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE TABLE  Manga(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char)";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE UNIQUE INDEX AnimeIndex ON Anime(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE UNIQUE INDEX AVIndex ON AV(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE UNIQUE INDEX DoujinshiIndex ON Doujinshi(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE UNIQUE INDEX GameIndex ON Game(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
+                command.ExecuteNonQuery();
+                command.CommandText = "CREATE UNIQUE INDEX MangaIndex ON Manga(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete )";
+                command.ExecuteNonQuery();
+                trans.Commit();
+            }
+            else
+            {
+                connection = new SQLiteConnection(@"data source=.\Nyaa");
+                connection.Open();
+                command = new SQLiteCommand(connection);
+            }
+            #endregion
             HtmlDoc.LoadHtml(Resource1.Html);
-            /* c.Open();
-             SqlCommand Cmd = new SqlCommand();
-             Cmd.Connection = c;
-             Cmd.CommandType = CommandType.Text;*/
-            /*   Cmd.CommandText = "delete from torrent";
-               Cmd.ExecuteScalar();*/
-            /*Cmd.CommandText = "create table torrent(CLass varchar(50),title varchar(50),ImageSrc varchar(50),Address varchar(varchar),Name nvarchar(50),Torrent varchar(50),Magnet varchar(50),Size varchar(50),Time varchar(50),Up varchar(50),Leeches varchar(50),Complete char(50))";
-            Cmd.ExecuteScalar();*/
             HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
-            Control.CheckForIllegalCrossThreadCalls = false;
+            CheckForIllegalCrossThreadCalls = false;
             new Task(() =>
             {
                 Stopwatch stopWatch = new Stopwatch();
-                DbTransaction trans = connection.BeginTransaction();
+                var trans = connection.BeginTransaction();
                 stopWatch.Start();
                 var Count = 0;
                 for (int i = 0; i < 100; i++)
@@ -153,7 +166,6 @@ namespace NyaaAnalyse
                 connection.Close();
                 stopWatch.Stop();
             }).Start();
-            //c.Close();
             url = "https://sukebei.nyaa.si/";
             //go();
         }
@@ -164,11 +176,11 @@ namespace NyaaAnalyse
         {
             try
             {
-                SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+              /*  SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
                 c.Open();
                 SqlCommand Cmd = new SqlCommand();
                 Cmd.Connection = c;
-                Cmd.CommandType = CommandType.Text;
+                Cmd.CommandType = CommandType.Text;*/
              /*   Cmd.CommandText = "delete from torrent";
                 Cmd.ExecuteScalar();*/
                 ClearanceHandler handler = new ClearanceHandler();
@@ -259,11 +271,11 @@ namespace NyaaAnalyse
                     TB.Append("'");
                     TB.Append(Complete);
                     TB.Append("')");
-                    Cmd.CommandText = TB.ToString();
-                    Cmd.ExecuteNonQuery();
+                   /* Cmd.CommandText = TB.ToString();
+                    Cmd.ExecuteNonQuery();*/
 
                 }
-                c.Close();
+               // c.Close();
                 url = "https://sukebei.nyaa.si/?p=2";
                 go();
             }

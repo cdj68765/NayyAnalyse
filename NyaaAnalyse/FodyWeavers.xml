@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
-  
+<Costura>
+<IncludeAssemblies>
+  DarkUI
+  EntityFramework
+  EntityFramework.SqlServer
+  HtmlAgilityPack
+  ObjectListView
+  System.Data.SQLite
+  System.Data.SQLite.EF6
+  System.Data.SQLite.Linq
+  </IncludeAssemblies>
+<Unmanaged32Assemblies>SQLite.Interop</Unmanaged32Assemblies>
+<Unmanaged64Assemblies>SQLite.Interop</Unmanaged64Assemblies>
+</Costura>
 </Weavers>
