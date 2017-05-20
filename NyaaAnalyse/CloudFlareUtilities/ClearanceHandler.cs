@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +37,9 @@ namespace CloudFlareUtilities
         /// <summary>
         /// Creates a new instance of the <see cref="ClearanceHandler"/> class with a <see cref="HttpClientHandler"/> as inner handler.
         /// </summary>
-        public ClearanceHandler() : this(new HttpClientHandler())
+        public ClearanceHandler() : this(new HttpClientHandler()
+        {
+        })
         {
         }
 
@@ -44,11 +49,12 @@ namespace CloudFlareUtilities
         /// <param name="innerHandler">The inner handler which is responsible for processing the HTTP response messages.</param>
         public ClearanceHandler(HttpMessageHandler innerHandler) : base(innerHandler)
         {
-            _client = new HttpClient(new HttpClientHandler
+            var HCH = new HttpClientHandler
             {
                 AllowAutoRedirect = false,
                 CookieContainer = _cookies
-            });
+            };
+            _client = new HttpClient(HCH);
         }
 
         /// <summary>
@@ -82,6 +88,10 @@ namespace CloudFlareUtilities
             EnsureClientHeader(request);
             InjectCookies(request);
             var response = await base.SendAsync(request, cancellationToken);//调用原始API
+            if (response.IsSuccessStatusCode)
+            {
+                return response;
+            }
             // (Re)try clearance if required.
             var retries = 0;
             while (IsClearanceRequired(response) && (MaxRetries < 0 || retries <= MaxRetries))
@@ -97,7 +107,20 @@ namespace CloudFlareUtilities
                 HttpStatusCode = response.StatusCode;
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-
+            if (response.IsSuccessStatusCode)
+            {
+                using (Stream stream = File.Create("Cookies"))
+                {
+                    try
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
+                        formatter.Serialize(stream, _cookies);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
             return response;
         }
 
