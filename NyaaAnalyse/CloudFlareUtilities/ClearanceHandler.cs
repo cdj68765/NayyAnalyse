@@ -27,7 +27,7 @@ namespace CloudFlareUtilities
 
         public string IDCookieValue = string.Empty;
         public string ClearanceCookieValue = string.Empty;
-
+        public HttpStatusCode HttpStatusCode = HttpStatusCode.OK;
         public readonly CookieContainer _cookies = new CookieContainer();
         private readonly HttpClient _client;
 
@@ -81,7 +81,6 @@ namespace CloudFlareUtilities
         {
             EnsureClientHeader(request);
             InjectCookies(request);
-
             var response = await base.SendAsync(request, cancellationToken);//调用原始API
             // (Re)try clearance if required.
             var retries = 0;
@@ -93,10 +92,11 @@ namespace CloudFlareUtilities
                 response = await base.SendAsync(request, cancellationToken);
                 retries++;
             }
-
-            // Clearance failed.
-            if (IsClearanceRequired(response))
-                throw new CloudFlareClearanceException(retries);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                HttpStatusCode = response.StatusCode;
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
 
             return response;
         }

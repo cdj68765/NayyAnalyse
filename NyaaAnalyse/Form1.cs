@@ -26,6 +26,7 @@ namespace NyaaAnalyse
         public Form1()
         {
             InitializeComponent();
+            SearchcomboBox.SelectedIndex=0;
             #region 初始化数据库，建立表单
             SQLiteConnection connection = null;
             SQLiteCommand command = null;
@@ -35,9 +36,9 @@ namespace NyaaAnalyse
                 connection = new SQLiteConnection(@"data source=.\Nyaa");
                 connection.Open();
                 command = new SQLiteCommand(connection);
-                command.CommandText = "CREATE TABLE  NyaaDB(CLass char,title char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char,OntherData BLOB)";
+                command.CommandText = "CREATE TABLE  NyaaDB(Class char,Catagory char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time char,Up char,Leeches char,Complete char,OntherData BLOB)";
                 command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX NyaaDBIndex ON NyaaDB(CLass ,title  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete,OntherData)";
+                command.CommandText = "CREATE UNIQUE INDEX NyaaDBIndex ON NyaaDB(Class ,Catagory  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete,OntherData)";
                 command.ExecuteNonQuery();
 
             }
@@ -148,24 +149,27 @@ namespace NyaaAnalyse
                 trans.Commit();
                 connection.Close();
                 stopWatch.Stop();
-            }).Start();
-            url = "https://sukebei.nyaa.si/";
-            //go();
+            });
+            //url = "https://sukebei.nyaa.si/?p=9000";
+            // url = "https://sukebei.nyaa.si/";
+            url = "https://www.google.co.jp/";
+            go(connection);
         }
 
         private string url;
 
-        private async void go()
+        private async void go(SQLiteConnection connection)
         {
             try
             {
-              /*  SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
-                c.Open();
-                SqlCommand Cmd = new SqlCommand();
-                Cmd.Connection = c;
-                Cmd.CommandType = CommandType.Text;*/
-             /*   Cmd.CommandText = "delete from torrent";
-                Cmd.ExecuteScalar();*/
+              var  command = new SQLiteCommand(connection);
+                /*  SqlConnection c = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\cdj68\Desktop\PEPlugin-Git\bin\Debug\Nyaa.mdf;Integrated Security=True;Connect Timeout=30");
+                  c.Open();
+                  SqlCommand Cmd = new SqlCommand();
+                  Cmd.Connection = c;
+                  Cmd.CommandType = CommandType.Text;*/
+                /*   Cmd.CommandText = "delete from torrent";
+                   Cmd.ExecuteScalar();*/
                 ClearanceHandler handler = new ClearanceHandler();
                 var cookies = ReadCookiesFromDisk(@"Cookies");
                 if (cookies != null)
@@ -176,7 +180,15 @@ namespace NyaaAnalyse
                     }
                 }
                 HttpClient client = new HttpClient(handler);
+                //var TorrentM = await client.GetStringAsync(@"https://sukebei.nyaa.si/view/2305136/torrent");
                 var content = await client.GetStringAsync(url);
+                if (content == "")
+                {
+                    if (handler.HttpStatusCode == HttpStatusCode.NotFound)
+                    {
+
+                    }
+                }
                 HtmlDoc.LoadHtml(content);
                 WriteCookiesToDisk("Cookies", handler._cookies);
                 HtmlNodeCollection hrefs2 = HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr");
@@ -205,7 +217,7 @@ namespace NyaaAnalyse
                     var Leeches = temp.SelectSingleNode(@"//td[7]").InnerHtml;
                     var Complete = temp.SelectSingleNode(@"//td[8]").InnerHtml;
                     var TB = new StringBuilder();
-                    TB.Append(@"insert into torrent(CLass,title,ImageSrc,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
+                    TB.Append(@"insert or ignore into NyaaDB(CLass,title,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
                     TB.Append("'");
                     TB.Append(Class);
                     TB.Append("',");
@@ -214,15 +226,15 @@ namespace NyaaAnalyse
                     TB.Append(title);
                     TB.Append("',");
 
-                    TB.Append("'");
-                    TB.Append(Imgsrc);
-                    TB.Append("',");
+                    /* TB.Append("'");
+                     TB.Append(Imgsrc);
+                     TB.Append("',");*/
 
                     TB.Append("'");
                     TB.Append(Address);
                     TB.Append("',");
 
-                    TB.Append("N\'" + name + "\',");
+                    TB.Append("\'" + name + "\',");
 
                     TB.Append("'");
                     TB.Append(Torrent);
@@ -254,16 +266,17 @@ namespace NyaaAnalyse
                     TB.Append("'");
                     TB.Append(Complete);
                     TB.Append("')");
-                   /* Cmd.CommandText = TB.ToString();
-                    Cmd.ExecuteNonQuery();*/
-
+                    /*  Cmd.CommandText = TB.ToString();
+                      Cmd.ExecuteNonQuery();*/
+                    command.CommandText = TB.ToString();
+                    command.ExecuteNonQuery();
                 }
-               // c.Close();
-                url = "https://sukebei.nyaa.si/?p=2";
-                go();
+                // c.Close();
+
             }
-            catch (Exception)
+            catch (Exception ex) 
             {
+                if (ex.InnerException.Message == "无法连接到远程服务器") ;
             }
         }
     
@@ -301,6 +314,22 @@ namespace NyaaAnalyse
         private void 退出_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void SearchTextBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (SearchTextBox.Text == "Search...")
+            {
+                SearchTextBox.Text="";
+            }
+        }
+
+        private void SearchTextBox_Leave(object sender, EventArgs e)
+        {
+            if (SearchTextBox.Text == "")
+            {
+                SearchTextBox.Text = "Search...";
+            }
         }
     }
 }
