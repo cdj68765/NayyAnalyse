@@ -43,7 +43,8 @@
   <ItemGroup>
     <Reference Include="DarkUI">
       <HintPath>.\DarkUI.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -98,20 +99,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Coutura64\SQLite.Interop.dll" />
-    <EmbeddedResource Include="Costura32\SQLite.Interop.dll" />
+    <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
+    <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
     <EmbeddedResource Include="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="bin\Release\EntityFramework.SqlServer.dll" />
-    <None Include="bin\Release\HtmlAgilityPack.dll" />
-    <None Include="bin\Release\ObjectListView.dll" />
-    <None Include="bin\Release\System.Data.SQLite.dll" />
-    <None Include="bin\Release\System.Data.SQLite.EF6.dll" />
-    <None Include="bin\Release\System.Data.SQLite.Linq.dll" />
-    <None Include="bin\Release\DarkUI.dll" />
-    <None Include="bin\Release\EntityFramework.dll" />
     <Content Include="Class1.txt" />
     <Compile Include="CloudFlareUtilities\ClearanceHandler.cs" />
     <Compile Include="CloudFlareUtilities\CloudflareClearanceException.cs" />
@@ -166,7 +159,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\System.Data.SQLite.Core.1.0.105.1\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\System.Data.SQLite.Core.1.0.105.1\build\net45\System.Data.SQLite.Core.targets'))" />
     <Error Condition="!Exists('packages\Fody.2.0.9\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.0.9\build\dotnet\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.1.5.0\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.5.0\build\dotnet\Costura.Fody.targets'))" />
   </Target>
   <Import Project="packages\System.Data.SQLite.Core.1.0.105.1\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.105.1\build\net45\System.Data.SQLite.Core.targets')" />
   <Import Project="packages\Fody.2.0.9\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.9\build\dotnet\Fody.targets')" />
+  <Import Project="packages\Costura.Fody.1.5.0\build\dotnet\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.5.0\build\dotnet\Costura.Fody.targets')" />
 </Project>
