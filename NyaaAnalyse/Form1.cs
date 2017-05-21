@@ -1,7 +1,6 @@
 ﻿using CloudFlareUtilities;
 using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -113,10 +112,12 @@ namespace NyaaAnalyse
                 }
             }
         }
-        Task StopTask = null;
-        Stopwatch stop = new Stopwatch();
-        int Seconds = 0;
-        int seconds = 0;
+
+        private Task StopTask = null;
+        private Stopwatch stop = new Stopwatch();
+        private int Seconds = 0;
+        private int seconds = 0;
+
         private void 开始备份_Click(object sender, EventArgs e)
         {
             StopTask = new Task(() =>
@@ -132,11 +133,9 @@ namespace NyaaAnalyse
                      info5.Text = "当前页面:" + HttpCount;
                      Thread.Sleep(1000);
                  }
-                
+             }, TaskCreationOptions.LongRunning);
 
-             },TaskCreationOptions.LongRunning);
-          
-          if(开始备份.Text== "开始备份")
+            if (开始备份.Text == "开始备份")
             {
                 if ((new DarkUI.Forms.DarkMessageBox("是否开始备份", "", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.YesNoCancel)).ShowDialog() == DialogResult.Yes)
                 {
@@ -153,11 +152,12 @@ namespace NyaaAnalyse
                     开始备份.Text = "开始备份";
                 }
             }
-          
         }
-    int    ErrorCount=0;
-        bool Start = true;
-        private  void StartBackup()
+
+        private int ErrorCount = 0;
+        private bool Start = true;
+
+        private void StartBackup()
         {
             if (new FileInfo("Config").Exists)
             {
@@ -174,7 +174,7 @@ namespace NyaaAnalyse
             InfoProgressBar.Minimum = 0;
             InfoProgressBar.Maximum = 9970;
             InfoProgressBar.Value = HttpCount;
-           
+
             new Task(async () =>
             {
                 Restart:
@@ -195,11 +195,11 @@ namespace NyaaAnalyse
                     while (Start)
                     {
                         seconds = stop.Elapsed.Seconds - Seconds;
-                     Seconds = stop.Elapsed.Seconds;
-                     
+                        Seconds = stop.Elapsed.Seconds;
+
                         if (ErrorCount == 0)
                             Info1.Text = "获得HTML";
-                            else Info1.Text = "获得HTML第" +ErrorCount+"次";
+                        else Info1.Text = "获得HTML第" + ErrorCount + "次";
                         var content = await client.GetStringAsync(网站地址.Text + @"?p=" + HttpCount);
                         Info1.Text = "分析HTML";
                         if (content == "")
@@ -232,9 +232,9 @@ namespace NyaaAnalyse
                         }
                         var HtmlDoc = new HtmlAgilityPack.HtmlDocument();
                         HtmlDoc.LoadHtml(content);
-                      
+
                         InfoProgressBar.PerformStep();
-                        
+
                         foreach (var item in HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr"))
                         {
                             var temp = HtmlNode.CreateNode(item.OuterHtml);
@@ -301,7 +301,7 @@ namespace NyaaAnalyse
                         if (TransactionCount == 5)
                         {
                             TransactionCount = 0;
-                         
+
                             CreateTransaction.Commit();
                             CreateTransaction = connection.BeginTransaction();
                             using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
@@ -309,7 +309,6 @@ namespace NyaaAnalyse
                                 IFormatter formatter2 = new BinaryFormatter();
                                 formatter2.Serialize(Filestream, HttpCount);
                             }
-
                         }
                         ErrorCount = 0;
                         Interlocked.Increment(ref TransactionCount);
@@ -341,7 +340,7 @@ namespace NyaaAnalyse
                     }
 
                     Interlocked.Increment(ref ErrorCount);
-                    if (ErrorCount <5)
+                    if (ErrorCount < 5)
                     {
                         Thread.Sleep(10000);
                     }
