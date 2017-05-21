@@ -1,15 +1,19 @@
 ﻿using CloudFlareUtilities;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NyaaAnalyse
@@ -109,19 +113,72 @@ namespace NyaaAnalyse
                 }
             }
         }
-
+        Task StopTask = null;
+        Stopwatch stop = new Stopwatch();
+        int Seconds = 0;
+        int seconds = 0;
         private void 开始备份_Click(object sender, EventArgs e)
         {
-            StartBackup();
-        }
+            StopTask = new Task(() =>
+             {
+                 stop = new Stopwatch();
+                 stop.Start();
+                 while (stop.IsRunning)
+                 {
+                     Info2.Text = "总耗时:" + (int)stop.Elapsed.TotalHours + "小时" + stop.Elapsed.Minutes + "分钟" + stop.Elapsed.Seconds + "秒";
+                     Info3.Text = "单例耗时:" + (stop.Elapsed.Seconds - Seconds) + "秒"; ;
+                     TimeSpan ts = new TimeSpan(0, 0, (seconds) * (9970 - HttpCount));
+                     info4.Text = "预计剩余" + (int)ts.TotalHours + "小时" + ts.Minutes + "分钟" + ts.Seconds + "秒";
+                     info5.Text = "当前页面:" + HttpCount;
+                     Thread.Sleep(1000);
+                 }
+                
 
-        private async void StartBackup()
-        {
-            try
+             },TaskCreationOptions.LongRunning);
+          
+          if(开始备份.Text== "开始备份")
             {
-                var connection = new SQLiteConnection(@"data source=.\Nyaa");
-                connection.Open();
-                var command = new SQLiteCommand(connection);
+                if ((new DarkUI.Forms.DarkMessageBox("是否开始备份", "", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.YesNoCancel)).ShowDialog() == DialogResult.Yes)
+                {
+                    开始备份.Text = "取消备份";
+                    StopTask.Start();
+                    StartBackup();
+                }
+            }
+            else
+            {
+                if ((new DarkUI.Forms.DarkMessageBox("是否取消备份", "", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.YesNo)).ShowDialog() == DialogResult.Yes)
+                {
+                    Start = false;
+                    开始备份.Text = "开始备份";
+                }
+            }
+          
+        }
+    int    ErrorCount=0;
+        bool Start = true;
+        private  void StartBackup()
+        {
+            if (new FileInfo("Config").Exists)
+            {
+                using (Stream Filestream = new FileStream("Config", FileMode.Open))
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    HttpCount = (int)formatter.Deserialize(Filestream);
+                }
+            }
+            var connection = new SQLiteConnection(@"data source=.\Nyaa");
+            connection.Open();
+            var command = new SQLiteCommand(connection);
+
+            InfoProgressBar.Minimum = 0;
+            InfoProgressBar.Maximum = 9970;
+            InfoProgressBar.Value = HttpCount;
+           
+            new Task(async () =>
+            {
+                Restart:
+                var CreateTransaction = connection.BeginTransaction();
                 ClearanceHandler handler = new ClearanceHandler();
                 var cookies = ReadCookiesFromDisk(@"Cookies");
                 if (cookies != null)
@@ -132,102 +189,180 @@ namespace NyaaAnalyse
                     }
                 }
                 HttpClient client = new HttpClient(handler);
-                var CreateTransaction = connection.BeginTransaction();
-                int TransactionCount = 0;
-                while (true)
+                try
                 {
-                    var content = await client.GetStringAsync(网站地址.Text + @"?p=" + HttpCount);
-                    if (content == "")
+                    int TransactionCount = 0;
+                    while (Start)
                     {
-                        if (handler.HttpStatusCode == HttpStatusCode.NotFound || HttpCount > 9500)
+                        seconds = stop.Elapsed.Seconds - Seconds;
+                     Seconds = stop.Elapsed.Seconds;
+                     
+                        if (ErrorCount == 0)
+                            Info1.Text = "获得HTML";
+                            else Info1.Text = "获得HTML第" +ErrorCount+"次";
+                        var content = await client.GetStringAsync(网站地址.Text + @"?p=" + HttpCount);
+                        Info1.Text = "分析HTML";
+                        if (content == "")
                         {
-                            HttpCount = 1;
-                            break;
+                            if (handler.HttpStatusCode == HttpStatusCode.NotFound || HttpCount > 9500)
+                            {
+                                HttpCount = 1;
+                                Info1.Text = "备份完成";
+                                using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
+                                {
+                                    IFormatter formatter2 = new BinaryFormatter();
+                                    formatter2.Serialize(Filestream, HttpCount);
+                                }
+                                Info1.Text = "Ready";
+                                Info2.Text = "";
+                                Info3.Text = "";
+                                info4.Text = "";
+                                info5.Text = "";
+                                connection.Close();
+                                return;
+                            }
+                            else if (handler.HttpStatusCode == HttpStatusCode.ServiceUnavailable)
+                            {
+                                Info1.Text = "出现503错误,推测IP被Ban";
+                            }
+                            else
+                            {
+                                Info1.Text = "出现" + handler.HttpStatusCode.ToString();
+                            }
                         }
-                        else if (handler.HttpStatusCode == HttpStatusCode.ServiceUnavailable)
+                        var HtmlDoc = new HtmlAgilityPack.HtmlDocument();
+                        HtmlDoc.LoadHtml(content);
+                      
+                        InfoProgressBar.PerformStep();
+                        
+                        foreach (var item in HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr"))
                         {
+                            var temp = HtmlNode.CreateNode(item.OuterHtml);
+                            var Torrent = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
+                            var Magnet = "";
+                            if (Torrent.StartsWith("magnet"))
+                            {
+                                Magnet = Torrent;
+                                Torrent = "";
+                            }
+                            else
+                            {
+                                Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
+                            }
+                            var CreateDataBaseCommand = new StringBuilder();
+                            CreateDataBaseCommand.Append(@"insert or ignore into NyaaDB(CLass,Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(item.Attributes["class"].Value);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[2]").InnerText);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(Torrent);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(Magnet);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[4]").InnerHtml);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[5]").InnerHtml);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[6]").InnerHtml);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[7]").InnerHtml);
+                            CreateDataBaseCommand.Append("',");
+
+                            CreateDataBaseCommand.Append("'");
+                            CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[8]").InnerHtml);
+                            CreateDataBaseCommand.Append("')");
+                            command.CommandText = CreateDataBaseCommand.ToString();
+                            command.ExecuteNonQuery();
                         }
+
+                        if (TransactionCount == 5)
+                        {
+                            TransactionCount = 0;
+                         
+                            CreateTransaction.Commit();
+                            CreateTransaction = connection.BeginTransaction();
+                            using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
+                            {
+                                IFormatter formatter2 = new BinaryFormatter();
+                                formatter2.Serialize(Filestream, HttpCount);
+                            }
+
+                        }
+                        ErrorCount = 0;
+                        Interlocked.Increment(ref TransactionCount);
+                        Interlocked.Increment(ref HttpCount);
+                        Thread.Sleep(new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(5) * 1000);
                     }
-                    var HtmlDoc = new HtmlAgilityPack.HtmlDocument();
-                    HtmlDoc.LoadHtml(content);
-                    foreach (var item in HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr"))
+
+                    Info1.Text = "备份取消";
+                    Info2.Text = "";
+                    Info3.Text = "";
+                    info4.Text = "";
+                    info5.Text = "";
+                    CreateTransaction.Commit();
+                    connection.Close();
+                    using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
                     {
-                        var temp = HtmlNode.CreateNode(item.OuterHtml);
-                        var Torrent = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value;
-                        var Magnet = "";
-                        if (Torrent.StartsWith("magnet"))
-                        {
-                            Magnet = Torrent;
-                            Torrent = "";
-                        }
-                        else
-                        {
-                            Magnet = HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[3]").InnerHtml).SelectSingleNode("//a[2]").Attributes["href"].Value;
-                        }
-                        var CreateDataBaseCommand = new StringBuilder();
-                        CreateDataBaseCommand.Append(@"insert or ignore into NyaaDB(CLass,Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete) values(");
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(item.Attributes["class"].Value);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//a[1]").Attributes["title"].Value);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(HtmlNode.CreateNode(temp.SelectSingleNode(@"//td[2]").InnerHtml).SelectSingleNode("//a[1]").Attributes["href"].Value);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[2]").InnerText);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(Torrent);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(Magnet);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[4]").InnerHtml);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[5]").InnerHtml);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[6]").InnerHtml);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[7]").InnerHtml);
-                        CreateDataBaseCommand.Append("',");
-
-                        CreateDataBaseCommand.Append("'");
-                        CreateDataBaseCommand.Append(temp.SelectSingleNode(@"//td[8]").InnerHtml);
-                        CreateDataBaseCommand.Append("')");
-                        command.CommandText = CreateDataBaseCommand.ToString();
-                        command.ExecuteNonQuery();
+                        IFormatter formatter2 = new BinaryFormatter();
+                        formatter2.Serialize(Filestream, HttpCount);
                     }
-                    if (TransactionCount == 5)
-                    {
-                        TransactionCount = 0;
-                        CreateTransaction.Commit();
-                        CreateTransaction = connection.BeginTransaction();
-                        break;
-                    }
-                    Interlocked.Increment(ref TransactionCount);
-                    Interlocked.Increment(ref HttpCount);
+                    stop.Stop();
                 }
-                connection.Close();
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException.Message == "无法连接到远程服务器") ;
-            }
+                catch (Exception ex)
+                {
+                    CreateTransaction.Commit();
+                    using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
+                    {
+                        IFormatter formatter2 = new BinaryFormatter();
+                        formatter2.Serialize(Filestream, HttpCount);
+                    }
+
+                    Interlocked.Increment(ref ErrorCount);
+                    if (ErrorCount <5)
+                    {
+                        Thread.Sleep(10000);
+                    }
+                    else if (ErrorCount < 10)
+                    {
+                        Thread.Sleep(20000);
+                    }
+                    else if (ErrorCount > 15)
+                    {
+                        Info1.Text = "备份失败";
+                        Info2.Text = "";
+                        Info3.Text = "";
+                        info4.Text = "";
+                        info5.Text = "";
+                        connection.Close();
+                        return;
+                    }
+                    Info1.Text = "错误第" + ErrorCount + "次,错误类型" + ex.Message;
+                    goto Restart;
+                }
+            }).Start();
         }
 
         private void 开始搜索_Click(object sender, EventArgs e)

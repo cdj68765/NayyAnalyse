@@ -33,6 +33,7 @@
             this.类型图 = new System.Windows.Forms.ImageList(this.components);
             this.菜单栏 = new DarkUI.Controls.DarkMenuStrip();
             this.菜单 = new System.Windows.Forms.ToolStripMenuItem();
+            this.开始同步ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始备份 = new System.Windows.Forms.ToolStripMenuItem();
             this.删除表 = new System.Windows.Forms.ToolStripMenuItem();
             this.退出 = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +44,12 @@
             this.搜索字符 = new System.Windows.Forms.ToolStripTextBox();
             this.主窗口 = new DarkUI.Docking.DarkDockPanel();
             this.状态显示 = new DarkUI.Controls.DarkStatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.InfoProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.Info1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Info2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Info3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.info4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.info5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.菜单栏.SuspendLayout();
             this.工具栏.SuspendLayout();
             this.状态显示.SuspendLayout();
@@ -76,6 +82,7 @@
             // 菜单
             // 
             this.菜单.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.开始同步ToolStripMenuItem,
             this.开始备份,
             this.删除表,
             this.退出});
@@ -84,12 +91,21 @@
             this.菜单.Size = new System.Drawing.Size(44, 23);
             this.菜单.Text = "菜单";
             // 
+            // 开始同步ToolStripMenuItem
+            // 
+            this.开始同步ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.开始同步ToolStripMenuItem.Name = "开始同步ToolStripMenuItem";
+            this.开始同步ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.开始同步ToolStripMenuItem.Text = "开始同步";
+            this.开始同步ToolStripMenuItem.ToolTipText = "从第一页开始，到找到相同项结束";
+            // 
             // 开始备份
             // 
             this.开始备份.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.开始备份.Name = "开始备份";
             this.开始备份.Size = new System.Drawing.Size(124, 22);
             this.开始备份.Text = "开始备份";
+            this.开始备份.ToolTipText = "从第一页或者上次备份中断页开始，到最后一页为止";
             this.开始备份.Click += new System.EventHandler(this.开始备份_Click);
             // 
             // 删除表
@@ -191,7 +207,12 @@
             this.状态显示.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.状态显示.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.状态显示.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.InfoProgressBar,
+            this.Info1,
+            this.Info2,
+            this.Info3,
+            this.info4,
+            this.info5});
             this.状态显示.Location = new System.Drawing.Point(0, 332);
             this.状态显示.Name = "状态显示";
             this.状态显示.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
@@ -200,14 +221,40 @@
             this.状态显示.TabIndex = 10;
             this.状态显示.Text = "darkStatusStrip1";
             // 
-            // toolStripStatusLabel1
+            // InfoProgressBar
             // 
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.toolStripStatusLabel1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.toolStripStatusLabel1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(45, 21);
-            this.toolStripStatusLabel1.Text = "Ready";
+            this.InfoProgressBar.Name = "InfoProgressBar";
+            this.InfoProgressBar.Size = new System.Drawing.Size(150, 20);
+            this.InfoProgressBar.Step = 1;
+            // 
+            // Info1
+            // 
+            this.Info1.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
+            this.Info1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.Info1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Info1.Name = "Info1";
+            this.Info1.Size = new System.Drawing.Size(45, 21);
+            this.Info1.Text = "Ready";
+            // 
+            // Info2
+            // 
+            this.Info2.Name = "Info2";
+            this.Info2.Size = new System.Drawing.Size(0, 21);
+            // 
+            // Info3
+            // 
+            this.Info3.Name = "Info3";
+            this.Info3.Size = new System.Drawing.Size(0, 21);
+            // 
+            // info4
+            // 
+            this.info4.Name = "info4";
+            this.info4.Size = new System.Drawing.Size(0, 21);
+            // 
+            // info5
+            // 
+            this.info5.Name = "info5";
+            this.info5.Size = new System.Drawing.Size(0, 21);
             // 
             // Form1
             // 
@@ -245,9 +292,15 @@
         private DarkUI.Docking.DarkDockPanel 主窗口;
         private DarkUI.Controls.DarkStatusStrip 状态显示;
         private System.Windows.Forms.ToolStripMenuItem 删除表;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel Info1;
         private System.Windows.Forms.ToolStripTextBox 网站地址;
         private System.Windows.Forms.ToolStripMenuItem 开始备份;
+        private System.Windows.Forms.ToolStripMenuItem 开始同步ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel Info2;
+        private System.Windows.Forms.ToolStripStatusLabel Info3;
+        private System.Windows.Forms.ToolStripStatusLabel info4;
+        private System.Windows.Forms.ToolStripProgressBar InfoProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel info5;
     }
 }
 
