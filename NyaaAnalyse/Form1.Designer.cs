@@ -126,7 +126,7 @@
             // 
             // 网站地址
             // 
-            this.网站地址.ForeColor = System.Drawing.Color.Black;
+            this.网站地址.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.网站地址.Name = "网站地址";
             this.网站地址.Size = new System.Drawing.Size(140, 23);
             this.网站地址.Text = "https://sukebei.nyaa.si/";
@@ -166,7 +166,7 @@
             // 
             this.选择搜索类型.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.选择搜索类型.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.选择搜索类型.ForeColor = System.Drawing.Color.Black;
+            this.选择搜索类型.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.选择搜索类型.Items.AddRange(new object[] {
             "All categories",
             "Art",
@@ -185,7 +185,7 @@
             // 搜索字符
             // 
             this.搜索字符.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.搜索字符.ForeColor = System.Drawing.Color.Black;
+            this.搜索字符.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.搜索字符.Name = "搜索字符";
             this.搜索字符.Size = new System.Drawing.Size(130, 47);
             this.搜索字符.Text = "Search...";

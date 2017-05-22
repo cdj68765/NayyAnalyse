@@ -1,6 +1,8 @@
 ﻿using CloudFlareUtilities;
+using DarkUI.Docking;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -25,12 +27,56 @@ namespace NyaaAnalyse
         private const string DeleTable = "DROP  TABLE  NyaaDB";//删除表;
         private SQLiteConnection connection = null;
         private int HttpCount = 1;
-
+        public class TorrentInfo
+        {
+            public string Class;
+            public string Catagory;
+            public string Address;
+            public string Name;
+            public string Torrent;
+            public string Magnet;
+            public string Size;
+            public DateTime Time;
+            public string Up;
+            public string Leeches;
+            public string Complete;
+            public byte[] OntherData;
+        }
         public Form1()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             选择搜索类型.SelectedIndex = 0;
+             var  conn= new SQLiteConnection(@"data source=.\Nyaa");
+               conn.Open();
+             var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
+           // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
+            DataSet ds = new DataSet();
+            ds.EnforceConstraints = false;
+            dataAdapter.FillSchema(ds, SchemaType.Source, "NyaaDB");
+            dataAdapter.Fill(ds, "NyaaDB");
+            主窗口.AddContent(new Document("主页", ds));
+            /*  if (read.HasRows)
+              {
+                  List<TorrentInfo> sa = new List<TorrentInfo>();
+                  while (read.Read())
+                  {
+                      TorrentInfo Temp = new TorrentInfo();
+                      Temp.Class = read.GetString(0);
+                      Temp.Catagory = read.GetString(1);
+                      Temp.Address = read.GetString(2);
+                      Temp.Name = read.GetString(3);
+                      Temp.Torrent= read.GetString(4);
+                      Temp.Magnet = read.GetString(5);
+                      Temp.Size = read.GetString(6);
+                      Temp.Time = read.GetDateTime(7);
+                      Temp.Up = read.GetString(8);
+                      Temp.Leeches = read.GetString(9);
+                      Temp.Complete = read.GetString(10);
+                  }
+                  主窗口.AddContent(new Document("主页", Temp));
+              }*/
+
 
             #region 初始化数据库，建立表单
 
@@ -41,9 +87,9 @@ namespace NyaaAnalyse
                 connection = new SQLiteConnection(@"data source=.\Nyaa");
                 connection.Open();
                 command = new SQLiteCommand(connection);
-                command.CommandText = "CREATE TABLE  NyaaDB(Class char,Catagory char ,Address char,Name nvarchar(50),Torrent char,Magnet nvarchar(50),Size char,Time datetime,Up char,Leeches char,Complete char,OntherData BLOB)";
+                command.CommandText = CreateTable; ;
                 command.ExecuteNonQuery();
-                command.CommandText = "CREATE UNIQUE INDEX NyaaDBIndex ON NyaaDB(Class ,Catagory  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete,OntherData)";
+                command.CommandText = UNIQUETable;
                 command.ExecuteNonQuery();
                 connection.Close();
             }
@@ -116,7 +162,6 @@ namespace NyaaAnalyse
         private Task StopTask = null;
         private Stopwatch stop = new Stopwatch();
         private int Seconds = 0;
-        private int seconds = 0;
 
         private void 开始备份_Click(object sender, EventArgs e)
         {
@@ -124,11 +169,12 @@ namespace NyaaAnalyse
              {
                  stop = new Stopwatch();
                  stop.Start();
+                 var StartCount = HttpCount-1;
                  while (stop.IsRunning)
                  {
                      Info2.Text = "总耗时:" + (int)stop.Elapsed.TotalHours + "小时" + stop.Elapsed.Minutes + "分钟" + stop.Elapsed.Seconds + "秒";
-                     Info3.Text = "单例耗时:" + (stop.Elapsed.Seconds - Seconds) + "秒"; ;
-                     TimeSpan ts = new TimeSpan(0, 0, (seconds) * (9970 - HttpCount));
+                     Info3.Text = "单例耗时:" + (stop.Elapsed.Seconds - Seconds) + "秒";
+                     TimeSpan ts = new TimeSpan(0, 0, ((int)stop.Elapsed.TotalSeconds/(HttpCount-StartCount)) * (9970 - HttpCount));
                      info4.Text = "预计剩余" + (int)ts.TotalHours + "小时" + ts.Minutes + "分钟" + ts.Seconds + "秒";
                      info5.Text = "当前页面:" + HttpCount;
                      Thread.Sleep(1000);
@@ -140,7 +186,7 @@ namespace NyaaAnalyse
                 if ((new DarkUI.Forms.DarkMessageBox("是否开始备份", "", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.YesNoCancel)).ShowDialog() == DialogResult.Yes)
                 {
                     开始备份.Text = "取消备份";
-                    StopTask.Start();
+                    Start = true;
                     StartBackup();
                 }
             }
@@ -148,6 +194,7 @@ namespace NyaaAnalyse
             {
                 if ((new DarkUI.Forms.DarkMessageBox("是否取消备份", "", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.YesNo)).ShowDialog() == DialogResult.Yes)
                 {
+                    Info1.Text = "等待本次实例完成";
                     Start = false;
                     开始备份.Text = "开始备份";
                 }
@@ -194,7 +241,6 @@ namespace NyaaAnalyse
                     int TransactionCount = 0;
                     while (Start)
                     {
-                        seconds = stop.Elapsed.Seconds - Seconds;
                         Seconds = stop.Elapsed.Seconds;
 
                         if (ErrorCount == 0)
@@ -362,6 +408,7 @@ namespace NyaaAnalyse
                     goto Restart;
                 }
             }).Start();
+            StopTask.Start();
         }
 
         private void 开始搜索_Click(object sender, EventArgs e)
