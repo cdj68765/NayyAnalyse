@@ -29,186 +29,241 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Document));
-            this.dataListView1 = new BrightIdeasSoftware.DataListView();
-            this.catagory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
-            this.address = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Torrent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Magnet = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Size = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Time = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Up = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Leeches = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Complete = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle25 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle26 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle27 = new BrightIdeasSoftware.HeaderStateStyle();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.imageRenderer1 = new BrightIdeasSoftware.ImageRenderer();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListView1)).BeginInit();
+            this.olvTasks = new BrightIdeasSoftware.ObjectListView();
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTorrent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvMagnet = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.darkContextMenu1 = new DarkUI.Controls.DarkContextMenu();
+            this.打开网页ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.下载种子ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.复制磁力ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
+            this.复制种子名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.olvTasks)).BeginInit();
+            this.darkContextMenu1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dataListView1
-            // 
-            this.dataListView1.AllColumns.Add(this.catagory);
-            this.dataListView1.AllColumns.Add(this.address);
-            this.dataListView1.AllColumns.Add(this.name);
-            this.dataListView1.AllColumns.Add(this.olvColumn1);
-            this.dataListView1.AllColumns.Add(this.Torrent);
-            this.dataListView1.AllColumns.Add(this.Magnet);
-            this.dataListView1.AllColumns.Add(this.Size);
-            this.dataListView1.AllColumns.Add(this.Time);
-            this.dataListView1.AllColumns.Add(this.Up);
-            this.dataListView1.AllColumns.Add(this.Leeches);
-            this.dataListView1.AllColumns.Add(this.Complete);
-            this.dataListView1.AllowColumnReorder = true;
-            this.dataListView1.AllowDrop = true;
-            this.dataListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.catagory,
-            this.address,
-            this.name,
-            this.olvColumn1,
-            this.Torrent,
-            this.Magnet,
-            this.Size,
-            this.Time,
-            this.Up,
-            this.Leeches,
-            this.Complete});
-            this.dataListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.dataListView1.DataSource = null;
-            this.dataListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataListView1.FullRowSelect = true;
-            this.dataListView1.GridLines = true;
-            this.dataListView1.HeaderFormatStyle = this.headerFormatStyle1;
-            this.dataListView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.dataListView1.HideSelection = false;
-            this.dataListView1.HighlightBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.dataListView1.HighlightForegroundColor = System.Drawing.Color.White;
-            this.dataListView1.IncludeColumnHeadersInCopy = true;
-            this.dataListView1.LargeImageList = this.imageList1;
-            this.dataListView1.Location = new System.Drawing.Point(0, 0);
-            this.dataListView1.MenuLabelColumns = "列";
-            this.dataListView1.MenuLabelGroupBy = "建立组 \'{0}\'";
-            this.dataListView1.MenuLabelLockGroupingOn = "锁定组 \'{0}\'";
-            this.dataListView1.MenuLabelSelectColumns = "选中列...";
-            this.dataListView1.MenuLabelSortAscending = "升序\'{0}\'";
-            this.dataListView1.MenuLabelSortDescending = "降序 \'{0}\'";
-            this.dataListView1.MenuLabelTurnOffGroups = "取消组";
-            this.dataListView1.MenuLabelUnlockGroupingOn = "解除 \'{0}\'组";
-            this.dataListView1.MenuLabelUnsort = "不排序";
-            this.dataListView1.Name = "dataListView1";
-            this.dataListView1.OwnerDraw = true;
-            this.dataListView1.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.dataListView1.ShowCommandMenuOnRightClick = true;
-            this.dataListView1.ShowGroups = false;
-            this.dataListView1.ShowImagesOnSubItems = true;
-            this.dataListView1.ShowItemToolTips = true;
-            this.dataListView1.Size = new System.Drawing.Size(150, 150);
-            this.dataListView1.SmallImageList = this.imageList1;
-            this.dataListView1.TabIndex = 0;
-            this.dataListView1.UseCellFormatEvents = true;
-            this.dataListView1.UseCompatibleStateImageBehavior = false;
-            this.dataListView1.UseHotItem = true;
-            this.dataListView1.UseTranslucentHotItem = true;
-            this.dataListView1.View = System.Windows.Forms.View.Details;
-            this.dataListView1.HotItemChanged += new System.EventHandler<BrightIdeasSoftware.HotItemChangedEventArgs>(this.dataListView1_HotItemChanged);
-            // 
-            // catagory
-            // 
-            this.catagory.Renderer = this.imageRenderer1;
-            this.catagory.Text = "Catagory";
-            // 
-            // headerFormatStyle1
-            // 
-            headerStateStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            headerStateStyle7.ForeColor = System.Drawing.Color.White;
-            this.headerFormatStyle1.Hot = headerStateStyle7;
-            headerStateStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            headerStateStyle8.ForeColor = System.Drawing.Color.Gainsboro;
-            this.headerFormatStyle1.Normal = headerStateStyle8;
-            headerStateStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            headerStateStyle9.ForeColor = System.Drawing.Color.White;
-            headerStateStyle9.FrameColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle9.FrameWidth = 2F;
-            this.headerFormatStyle1.Pressed = headerStateStyle9;
-            // 
-            // address
-            // 
-            this.address.Text = "Address";
-            // 
-            // name
-            // 
-            this.name.Text = "Name";
-            // 
-            // Torrent
-            // 
-            this.Torrent.Text = "Torrent";
-            // 
-            // Magnet
-            // 
-            this.Magnet.Text = "Magnet";
-            // 
-            // Size
-            // 
-            this.Size.Text = "Size";
-            // 
-            // Time
-            // 
-            this.Time.Text = "Time";
-            // 
-            // Up
-            // 
-            this.Up.Text = "Up";
-            // 
-            // Leeches
-            // 
-            this.Leeches.Text = "Leeches";
-            // 
-            // Complete
-            // 
-            this.Complete.Text = "Complete";
             // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Anime.png");
-            this.imageList1.Images.SetKeyName(1, "AV.png");
-            this.imageList1.Images.SetKeyName(2, "Doujinshi.png");
-            this.imageList1.Images.SetKeyName(3, "Game.png");
-            this.imageList1.Images.SetKeyName(4, "Manga.png");
+            this.imageList1.Images.SetKeyName(0, "Art - Anime");
+            this.imageList1.Images.SetKeyName(1, "Real Life - Videos");
+            this.imageList1.Images.SetKeyName(2, "Art - Doujinshi");
+            this.imageList1.Images.SetKeyName(3, "Art - Games");
+            this.imageList1.Images.SetKeyName(4, "Art - Manga");
+            this.imageList1.Images.SetKeyName(5, "Art - Pictures");
+            this.imageList1.Images.SetKeyName(6, "Real Life - Photobooks / Pictures");
+            // 
+            // olvTasks
+            // 
+            this.olvTasks.AllColumns.Add(this.olvName);
+            this.olvTasks.AllColumns.Add(this.olvTorrent);
+            this.olvTasks.AllColumns.Add(this.olvMagnet);
+            this.olvTasks.AllColumns.Add(this.olvColumn5);
+            this.olvTasks.AllColumns.Add(this.olvColumn6);
+            this.olvTasks.AllColumns.Add(this.olvColumn7);
+            this.olvTasks.AllColumns.Add(this.olvColumn8);
+            this.olvTasks.AllColumns.Add(this.olvColumn9);
+            this.olvTasks.AllowColumnReorder = true;
+            this.olvTasks.AllowDrop = true;
+            this.olvTasks.CellEditUseWholeCell = false;
+            this.olvTasks.CheckBoxes = true;
+            this.olvTasks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvName,
+            this.olvTorrent,
+            this.olvMagnet,
+            this.olvColumn5,
+            this.olvColumn6,
+            this.olvColumn7,
+            this.olvColumn8,
+            this.olvColumn9});
+            this.olvTasks.ContextMenuStrip = this.darkContextMenu1;
+            this.olvTasks.CopySelectionOnControlC = false;
+            this.olvTasks.CopySelectionOnControlCUsesDragSource = false;
+            this.olvTasks.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olvTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.olvTasks.FullRowSelect = true;
+            this.olvTasks.GridLines = true;
+            this.olvTasks.HasCollapsibleGroups = false;
+            this.olvTasks.HeaderFormatStyle = this.headerFormatStyle1;
+            this.olvTasks.HideSelection = false;
+            this.olvTasks.IsSearchOnSortColumn = false;
+            this.olvTasks.Location = new System.Drawing.Point(0, 0);
+            this.olvTasks.MenuLabelColumns = "列";
+            this.olvTasks.MenuLabelGroupBy = "建成 \'{0}\'组";
+            this.olvTasks.MenuLabelLockGroupingOn = "锁定 \'{0}\'组";
+            this.olvTasks.MenuLabelSelectColumns = "选中列...";
+            this.olvTasks.MenuLabelSortAscending = "按 \'{0}\'升序";
+            this.olvTasks.MenuLabelSortDescending = "按 \'{0}\'降序";
+            this.olvTasks.MenuLabelTurnOffGroups = "取消组";
+            this.olvTasks.MenuLabelUnlockGroupingOn = "解锁\'{0}\'组";
+            this.olvTasks.MenuLabelUnsort = "取消排序";
+            this.olvTasks.Name = "olvTasks";
+            this.olvTasks.OwnerDrawnHeader = true;
+            this.olvTasks.PersistentCheckBoxes = false;
+            this.olvTasks.RowHeight = 50;
+            this.olvTasks.ShowCommandMenuOnRightClick = true;
+            this.olvTasks.ShowGroups = false;
+            this.olvTasks.ShowHeaderInAllViews = false;
+            this.olvTasks.ShowImagesOnSubItems = true;
+            this.olvTasks.ShowItemCountOnGroups = true;
+            this.olvTasks.ShowItemToolTips = true;
+            this.olvTasks.Size = new System.Drawing.Size(150, 150);
+            this.olvTasks.TabIndex = 1;
+            this.olvTasks.TriggerCellOverEventsWhenOverHeader = false;
+            this.olvTasks.UpdateSpaceFillingColumnsWhenDraggingColumnDivider = false;
+            this.olvTasks.UseCompatibleStateImageBehavior = false;
+            this.olvTasks.View = System.Windows.Forms.View.Details;
+            // 
+            // olvName
+            // 
+            this.olvName.AspectName = "Name";
+            this.olvName.Groupable = false;
+            this.olvName.Hyperlink = true;
+            this.olvName.Text = "Name";
+            this.olvName.Width = 530;
+            // 
+            // olvTorrent
+            // 
+            this.olvTorrent.AspectName = "Torrent";
+            this.olvTorrent.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            this.olvTorrent.Groupable = false;
+            this.olvTorrent.Sortable = false;
+            this.olvTorrent.Text = "Torrent";
+            // 
+            // olvMagnet
+            // 
+            this.olvMagnet.AspectName = "Magnet";
+            this.olvMagnet.Groupable = false;
+            this.olvMagnet.Sortable = false;
+            this.olvMagnet.Text = "Magnet";
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "Size";
+            this.olvColumn5.Text = "Size";
+            // 
+            // olvColumn6
+            // 
+            this.olvColumn6.AspectName = "Date";
+            this.olvColumn6.Text = "Date";
+            this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn6.Width = 120;
+            // 
+            // olvColumn7
+            // 
+            this.olvColumn7.AspectName = "Up";
+            this.olvColumn7.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.olvColumn7.Text = "Up";
+            this.olvColumn7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn7.Width = 30;
+            // 
+            // olvColumn8
+            // 
+            this.olvColumn8.AspectName = "Leeches";
+            this.olvColumn8.IsEditable = false;
+            this.olvColumn8.Text = "Leeches";
+            this.olvColumn8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // olvColumn9
+            // 
+            this.olvColumn9.AspectName = "Complete";
+            this.olvColumn9.Text = "Complete";
+            this.olvColumn9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // darkContextMenu1
+            // 
+            this.darkContextMenu1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.darkContextMenu1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开网页ToolStripMenuItem,
+            this.复制种子名ToolStripMenuItem,
+            this.下载种子ToolStripMenuItem,
+            this.复制磁力ToolStripMenuItem});
+            this.darkContextMenu1.Name = "darkContextMenu1";
+            this.darkContextMenu1.Size = new System.Drawing.Size(137, 92);
+            // 
+            // 打开网页ToolStripMenuItem
+            // 
+            this.打开网页ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.打开网页ToolStripMenuItem.Name = "打开网页ToolStripMenuItem";
+            this.打开网页ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开网页ToolStripMenuItem.Text = "打开网页";
+            // 
+            // 下载种子ToolStripMenuItem
+            // 
+            this.下载种子ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.下载种子ToolStripMenuItem.Name = "下载种子ToolStripMenuItem";
+            this.下载种子ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.下载种子ToolStripMenuItem.Text = "下载种子";
+            // 
+            // 复制磁力ToolStripMenuItem
+            // 
+            this.复制磁力ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.复制磁力ToolStripMenuItem.Name = "复制磁力ToolStripMenuItem";
+            this.复制磁力ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.复制磁力ToolStripMenuItem.Text = "复制磁力";
+            // 
+            // headerFormatStyle1
+            // 
+            headerStateStyle25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            headerStateStyle25.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Hot = headerStateStyle25;
+            headerStateStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            headerStateStyle26.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Normal = headerStateStyle26;
+            headerStateStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            headerStateStyle27.ForeColor = System.Drawing.Color.White;
+            headerStateStyle27.FrameColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle27.FrameWidth = 2F;
+            this.headerFormatStyle1.Pressed = headerStateStyle27;
+            // 
+            // 复制种子名ToolStripMenuItem
+            // 
+            this.复制种子名ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.复制种子名ToolStripMenuItem.Name = "复制种子名ToolStripMenuItem";
+            this.复制种子名ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.复制种子名ToolStripMenuItem.Text = "复制种子名";
             // 
             // Document
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataListView1);
+            this.Controls.Add(this.olvTasks);
             this.Name = "Document";
-            ((System.ComponentModel.ISupportInitialize)(this.dataListView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.olvTasks)).EndInit();
+            this.darkContextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private BrightIdeasSoftware.DataListView dataListView1;
-        private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
-        private BrightIdeasSoftware.OLVColumn catagory;
-        private BrightIdeasSoftware.OLVColumn address;
-        private BrightIdeasSoftware.OLVColumn name;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn Torrent;
-        private BrightIdeasSoftware.OLVColumn Magnet;
-        private BrightIdeasSoftware.OLVColumn Size;
-        private BrightIdeasSoftware.OLVColumn Time;
-        private BrightIdeasSoftware.OLVColumn Up;
-        private BrightIdeasSoftware.OLVColumn Leeches;
-        private BrightIdeasSoftware.OLVColumn Complete;
         private System.Windows.Forms.ImageList imageList1;
-        private BrightIdeasSoftware.ImageRenderer imageRenderer1;
+        private BrightIdeasSoftware.ObjectListView olvTasks;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.OLVColumn olvTorrent;
+        private BrightIdeasSoftware.OLVColumn olvMagnet;
+        private BrightIdeasSoftware.OLVColumn olvColumn5;
+        private BrightIdeasSoftware.OLVColumn olvColumn6;
+        private BrightIdeasSoftware.OLVColumn olvColumn7;
+        private BrightIdeasSoftware.OLVColumn olvColumn8;
+        private BrightIdeasSoftware.OLVColumn olvColumn9;
+        private DarkUI.Controls.DarkContextMenu darkContextMenu1;
+        private System.Windows.Forms.ToolStripMenuItem 打开网页ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 下载种子ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制磁力ToolStripMenuItem;
+        private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
+        private System.Windows.Forms.ToolStripMenuItem 复制种子名ToolStripMenuItem;
     }
 }

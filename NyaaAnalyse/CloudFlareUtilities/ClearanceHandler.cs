@@ -105,7 +105,7 @@ namespace CloudFlareUtilities
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 HttpStatusCode = response.StatusCode;
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new HttpResponseMessage();
             }
             if (response.IsSuccessStatusCode)
             {

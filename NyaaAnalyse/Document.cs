@@ -16,58 +16,53 @@ namespace NyaaAnalyse
 {
     public partial class Document : DarkDocument
     {
-
         public Document()
         {
             InitializeComponent();
         }
 
-
         public Document(string v, List<TorrentInfo> sa)
         {
             InitializeComponent();
-            var s = new List<DarkListItem>();
             DockText = v;
-            foreach (var item in sa)
+            DoubleBuffered = true;
+            olvName.Renderer = CreateDescribedTaskRenderer();
+            this.olvName.AspectName = "Catagory";
+            this.olvName.ImageAspectName = "Catagory";
+            this.olvName.CellPadding = new Rectangle(4, 2, 4, 2);
+            olvTorrent.IsButton = true;
+            olvTorrent.AspectName = "Download";
+            this.olvTorrent.ButtonSizing = OLVColumn.ButtonSizingMode.FixedBounds;
+            this.olvTorrent.ButtonSize = new Size(60, 26);
+            this.olvTorrent.TextAlign = HorizontalAlignment.Center;
+            this.olvTorrent.EnableButtonWhenItemIsDisabled = true;
+            olvMagnet.IsButton = true;
+            olvMagnet.AspectName = "Copy";
+            this.olvMagnet.ButtonSizing = OLVColumn.ButtonSizingMode.FixedBounds;
+            this.olvMagnet.ButtonSize = new Size(60, 26);
+            this.olvMagnet.TextAlign = HorizontalAlignment.Center;
+            this.olvMagnet.EnableButtonWhenItemIsDisabled = true;
+            olvTasks.ButtonClick += (s, e) =>
             {
-
-            }
-            dataListView1.SetObjects(s);
+                var SelectButton = olvTasks.SelectedColumn;
+                var Select = e.Model as TorrentInfo;
+            };
+            olvTasks.UseAlternatingBackColors = true;
+            olvTasks.AlternateRowBackColor = Color.WhiteSmoke;
+            olvTasks.SetObjects(sa);
         }
 
-        public Document(string v, DataSet ds)
+        private IRenderer CreateDescribedTaskRenderer()
         {
-            InitializeComponent();
-            this.DockText = v;
-            dataListView1.DataSource = new BindingSource(ds, "NyaaDB");
-        }
-
-        private void dataListView1_HotItemChanged(object sender, HotItemChangedEventArgs e)
-        {
-            if (sender == null)
-            {
-                return;
-            }
-
-            switch (e.HotCellHitLocation)
-            {
-                case HitTestLocation.Nothing:
-                    break;
-                case HitTestLocation.Header:
-                case HitTestLocation.HeaderCheckBox:
-                case HitTestLocation.HeaderDivider:
-                 
-                    break;
-                case HitTestLocation.Group:
-                 
-                    break;
-                case HitTestLocation.GroupExpander:
-                   
-                    break;
-                default:
-                
-                    break;
-            }
+            DescribedTaskRenderer renderer = new DescribedTaskRenderer();
+            renderer.ImageList = this.imageList1;
+            renderer.DescriptionAspectName = "Name";
+            renderer.TitleFont = new Font("Tahoma", 11, FontStyle.Bold);
+            renderer.DescriptionFont = new Font("Tahoma", 9);
+            renderer.ImageTextSpace = 8;
+            renderer.TitleDescriptionSpace = 1;
+            renderer.UseGdiTextRendering = true;
+            return renderer;
         }
     }
 }

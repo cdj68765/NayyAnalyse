@@ -27,36 +27,45 @@ namespace NyaaAnalyse
         private const string DeleTable = "DROP  TABLE  NyaaDB";//删除表;
         private SQLiteConnection connection = null;
         private int HttpCount = 1;
+
         public class TorrentInfo
         {
-            public string Class;
-            public string Catagory;
-            public string Address;
-            public string Name;
-            public string Torrent;
-            public string Magnet;
-            public string Size;
-            public DateTime Time;
-            public string Up;
-            public string Leeches;
-            public string Complete;
-            public byte[] OntherData;
+            public string Download => "下载";
+            public string Copy => "复制";
+            public string Class { get; set; }
+            public string Catagory { get; set; }
+            public string Address { get; set; }
+            public string Name { get; set; }
+            public string Torrent { get; set; }
+            public string Magnet { get; set; }
+            public string Size { get; set; }
+            public DateTime Date { get; set; }
+            public string Up { get; set; }
+            public string Leeches { get; set; }
+            public string Complete { get; set; }
         }
+
         public Form1()
         {
             InitializeComponent();
+            网站地址.ForeColor = System.Drawing.Color.Black;
+            搜索字符.ForeColor = System.Drawing.Color.Black;
+            选择搜索类型.ForeColor = System.Drawing.Color.Black;
             CheckForIllegalCrossThreadCalls = false;
             选择搜索类型.SelectedIndex = 0;
              var  conn= new SQLiteConnection(@"data source=.\Nyaa");
                conn.Open();
-             var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
+            var cmd=new  SQLiteCommand(conn);
+            cmd.CommandText = "select * from NyaaDB order by Time desc limit 100";
+            var read = cmd.ExecuteReader();
+           // var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
            // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
-            DataSet ds = new DataSet();
+           /* DataSet ds = new DataSet();
             ds.EnforceConstraints = false;
             dataAdapter.FillSchema(ds, SchemaType.Source, "NyaaDB");
             dataAdapter.Fill(ds, "NyaaDB");
-            主窗口.AddContent(new Document("主页", ds));
-            /*  if (read.HasRows)
+            主窗口.AddContent(new Document("主页", ds));*/
+              if (read.HasRows)
               {
                   List<TorrentInfo> sa = new List<TorrentInfo>();
                   while (read.Read())
@@ -69,14 +78,15 @@ namespace NyaaAnalyse
                       Temp.Torrent= read.GetString(4);
                       Temp.Magnet = read.GetString(5);
                       Temp.Size = read.GetString(6);
-                      Temp.Time = read.GetDateTime(7);
+                      Temp.Date = read.GetDateTime(7);
                       Temp.Up = read.GetString(8);
                       Temp.Leeches = read.GetString(9);
                       Temp.Complete = read.GetString(10);
+                    sa.Add(Temp);
                   }
-                  主窗口.AddContent(new Document("主页", Temp));
-              }*/
-
+                  主窗口.AddContent(new Document("主页", sa));
+                主窗口.AddContent(new dataListView("主页", sa));
+            }
 
             #region 初始化数据库，建立表单
 
@@ -247,19 +257,19 @@ namespace NyaaAnalyse
                             Info1.Text = "获得HTML";
                         else Info1.Text = "获得HTML第" + ErrorCount + "次";
                         var content = await client.GetStringAsync(网站地址.Text + @"?p=" + HttpCount);
+
                         Info1.Text = "分析HTML";
                         if (content == "")
                         {
                             if (handler.HttpStatusCode == HttpStatusCode.NotFound || HttpCount > 9500)
                             {
-                                HttpCount = 1;
+                                CreateTransaction.Commit();
                                 Info1.Text = "备份完成";
                                 using (Stream Filestream = new FileStream("Config", FileMode.OpenOrCreate))
                                 {
                                     IFormatter formatter2 = new BinaryFormatter();
                                     formatter2.Serialize(Filestream, HttpCount);
                                 }
-                                Info1.Text = "Ready";
                                 Info2.Text = "";
                                 Info3.Text = "";
                                 info4.Text = "";
@@ -278,9 +288,7 @@ namespace NyaaAnalyse
                         }
                         var HtmlDoc = new HtmlAgilityPack.HtmlDocument();
                         HtmlDoc.LoadHtml(content);
-
                         InfoProgressBar.PerformStep();
-
                         foreach (var item in HtmlDoc.DocumentNode.SelectNodes(@" / html[1] / body[1] / div[1] / div[2] / table[1] / tbody[1] / tr"))
                         {
                             var temp = HtmlNode.CreateNode(item.OuterHtml);
@@ -359,7 +367,6 @@ namespace NyaaAnalyse
                         ErrorCount = 0;
                         Interlocked.Increment(ref TransactionCount);
                         Interlocked.Increment(ref HttpCount);
-                        Thread.Sleep(new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(5) * 1000);
                     }
 
                     Info1.Text = "备份取消";
