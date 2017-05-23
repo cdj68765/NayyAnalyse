@@ -41,7 +41,6 @@
             this.网站地址 = new System.Windows.Forms.ToolStripTextBox();
             this.主窗口 = new DarkUI.Docking.DarkDockPanel();
             this.状态显示 = new DarkUI.Controls.DarkStatusStrip();
-            this.InfoProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.Info1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.Info2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.Info3 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -183,7 +182,6 @@
             this.状态显示.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.状态显示.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.状态显示.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.InfoProgressBar,
             this.Info1,
             this.Info2,
             this.Info3,
@@ -196,12 +194,6 @@
             this.状态显示.SizingGrip = false;
             this.状态显示.TabIndex = 10;
             this.状态显示.Text = "darkStatusStrip1";
-            // 
-            // InfoProgressBar
-            // 
-            this.InfoProgressBar.Name = "InfoProgressBar";
-            this.InfoProgressBar.Size = new System.Drawing.Size(150, 20);
-            this.InfoProgressBar.Step = 1;
             // 
             // Info1
             // 
@@ -262,7 +254,6 @@
         private System.Windows.Forms.ToolStripStatusLabel Info2;
         private System.Windows.Forms.ToolStripStatusLabel Info3;
         private System.Windows.Forms.ToolStripStatusLabel info4;
-        private System.Windows.Forms.ToolStripProgressBar InfoProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel info5;
         private System.Windows.Forms.ToolStripTextBox 网站地址;
         private System.Windows.Forms.ToolStripDropDownButton toolStripSplitButton1;

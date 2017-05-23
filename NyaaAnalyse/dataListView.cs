@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using BrightIdeasSoftware;
 using DarkUI.Docking;
-using BrightIdeasSoftware;
+using System.Collections.Generic;
 using static NyaaAnalyse.Form1;
 
 namespace NyaaAnalyse
@@ -30,7 +22,7 @@ namespace NyaaAnalyse
             DoubleBuffered = true;
             Category.ImageGetter = new ImageGetterDelegate((obj) =>
             {
-                return (obj as TorrentInfo).Catagory ;
+                return (obj as TorrentInfo).Catagory;
             });
             Torrent.AspectName = "Download";
             magnet.AspectName = "Copy";
