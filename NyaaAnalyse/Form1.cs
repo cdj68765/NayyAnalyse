@@ -25,7 +25,6 @@ namespace NyaaAnalyse
         private const string UNIQUETable = "CREATE UNIQUE INDEX NyaaDBIndex ON NyaaDB(Class ,Catagory  ,Address ,Name ,Torrent ,Magnet ,Size ,Time ,Up ,Leeches ,Complete,OntherData)";//建立数据唯一
         private const string VACUUMTable = "VACUUM";
         private const string DeleTable = "DROP  TABLE  NyaaDB";//删除表;
-        private SQLiteConnection connection = null;
         private int HttpCount = 1;
 
         public class TorrentInfo
@@ -53,38 +52,38 @@ namespace NyaaAnalyse
             选择搜索类型.ForeColor = System.Drawing.Color.Black;
             CheckForIllegalCrossThreadCalls = false;
             选择搜索类型.SelectedIndex = 0;
-             var  conn= new SQLiteConnection(@"data source=.\Nyaa");
-               conn.Open();
-            var cmd=new  SQLiteCommand(conn);
+            var conn = new SQLiteConnection(@"data source=.\Nyaa");
+            conn.Open();
+            var cmd = new SQLiteCommand(conn);
             cmd.CommandText = "select * from NyaaDB order by Time desc limit 100";
             var read = cmd.ExecuteReader();
-           // var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
-           // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
-           /* DataSet ds = new DataSet();
-            ds.EnforceConstraints = false;
-            dataAdapter.FillSchema(ds, SchemaType.Source, "NyaaDB");
-            dataAdapter.Fill(ds, "NyaaDB");
-            主窗口.AddContent(new Document("主页", ds));*/
-              if (read.HasRows)
-              {
-                  List<TorrentInfo> sa = new List<TorrentInfo>();
-                  while (read.Read())
-                  {
-                      TorrentInfo Temp = new TorrentInfo();
-                      Temp.Class = read.GetString(0);
-                      Temp.Catagory = read.GetString(1);
-                      Temp.Address = read.GetString(2);
-                      Temp.Name = read.GetString(3);
-                      Temp.Torrent= read.GetString(4);
-                      Temp.Magnet = read.GetString(5);
-                      Temp.Size = read.GetString(6);
-                      Temp.Date = read.GetDateTime(7);
-                      Temp.Up = read.GetString(8);
-                      Temp.Leeches = read.GetString(9);
-                      Temp.Complete = read.GetString(10);
+            // var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
+            // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
+            /* DataSet ds = new DataSet();
+             ds.EnforceConstraints = false;
+             dataAdapter.FillSchema(ds, SchemaType.Source, "NyaaDB");
+             dataAdapter.Fill(ds, "NyaaDB");
+             主窗口.AddContent(new Document("主页", ds));*/
+            if (read.HasRows)
+            {
+                List<TorrentInfo> sa = new List<TorrentInfo>();
+                while (read.Read())
+                {
+                    TorrentInfo Temp = new TorrentInfo();
+                    Temp.Class = read.GetString(0);
+                    Temp.Catagory = read.GetString(1);
+                    Temp.Address = read.GetString(2);
+                    Temp.Name = read.GetString(3);
+                    Temp.Torrent = read.GetString(4);
+                    Temp.Magnet = read.GetString(5);
+                    Temp.Size = read.GetString(6);
+                    Temp.Date = read.GetDateTime(7);
+                    Temp.Up = read.GetString(8);
+                    Temp.Leeches = read.GetString(9);
+                    Temp.Complete = read.GetString(10);
                     sa.Add(Temp);
-                  }
-                  主窗口.AddContent(new Document("主页", sa));
+                }
+                主窗口.AddContent(new Document("主页", sa));
                 主窗口.AddContent(new dataListView("主页", sa));
             }
 
@@ -93,6 +92,7 @@ namespace NyaaAnalyse
             SQLiteCommand command = null;
             if (!new FileInfo(@".\Nyaa").Exists)
             {
+                SQLiteConnection connection = null;
                 SQLiteConnection.CreateFile("Nyaa");
                 connection = new SQLiteConnection(@"data source=.\Nyaa");
                 connection.Open();
@@ -148,6 +148,7 @@ namespace NyaaAnalyse
         {
             if ((new DarkUI.Forms.DarkMessageBox("此操作将会清空数据库，请注意", "清空表", DarkUI.Forms.DarkMessageBoxIcon.Warning, DarkUI.Forms.DarkDialogButton.OkCancel)).ShowDialog() == DialogResult.OK)
             {
+                SQLiteConnection connection = null;
                 if (connection != null)
                 {
                     var command = new SQLiteCommand(connection);
@@ -179,12 +180,12 @@ namespace NyaaAnalyse
              {
                  stop = new Stopwatch();
                  stop.Start();
-                 var StartCount = HttpCount-1;
+                 var StartCount = HttpCount - 1;
                  while (stop.IsRunning)
                  {
                      Info2.Text = "总耗时:" + (int)stop.Elapsed.TotalHours + "小时" + stop.Elapsed.Minutes + "分钟" + stop.Elapsed.Seconds + "秒";
                      Info3.Text = "单例耗时:" + (stop.Elapsed.Seconds - Seconds) + "秒";
-                     TimeSpan ts = new TimeSpan(0, 0, ((int)stop.Elapsed.TotalSeconds/(HttpCount-StartCount)) * (9970 - HttpCount));
+                     TimeSpan ts = new TimeSpan(0, 0, ((int)stop.Elapsed.TotalSeconds / (HttpCount - StartCount)) * (9970 - HttpCount));
                      info4.Text = "预计剩余" + (int)ts.TotalHours + "小时" + ts.Minutes + "分钟" + ts.Seconds + "秒";
                      info5.Text = "当前页面:" + HttpCount;
                      Thread.Sleep(1000);
@@ -420,6 +421,8 @@ namespace NyaaAnalyse
 
         private void 开始搜索_Click(object sender, EventArgs e)
         {
+            SQLiteConnection connection = null;
+
         }
     }
 }
