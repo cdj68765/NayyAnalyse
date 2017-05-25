@@ -51,11 +51,8 @@ namespace NyaaAnalyse
             选择搜索类型.ForeColor = System.Drawing.Color.Black;
             CheckForIllegalCrossThreadCalls = false;
             选择搜索类型.SelectedIndex = 0;
-            var conn = new SQLiteConnection(@"data source=.\Nyaa");
-            conn.Open();
-            var cmd = new SQLiteCommand(conn);
-            cmd.CommandText = "select * from NyaaDB order by Time desc limit 100";
-            var read = cmd.ExecuteReader();
+            goreadAsync();
+          
             // var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
             // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
             /* DataSet ds = new DataSet();
@@ -63,28 +60,28 @@ namespace NyaaAnalyse
              dataAdapter.FillSchema(ds, SchemaType.Source, "NyaaDB");
              dataAdapter.Fill(ds, "NyaaDB");
              主窗口.AddContent(new Document("主页", ds));*/
-            if (read.HasRows)
-            {
-                List<TorrentInfo> sa = new List<TorrentInfo>();
-                while (read.Read())
-                {
-                    TorrentInfo Temp = new TorrentInfo();
-                    Temp.Class = read.GetString(0);
-                    Temp.Catagory = read.GetString(1);
-                    Temp.Address = read.GetString(2);
-                    Temp.Name = read.GetString(3);
-                    Temp.Torrent = read.GetString(4);
-                    Temp.Magnet = read.GetString(5);
-                    Temp.Size = read.GetString(6);
-                    Temp.Date = read.GetDateTime(7);
-                    Temp.Up = read.GetString(8);
-                    Temp.Leeches = read.GetString(9);
-                    Temp.Complete = read.GetString(10);
-                    sa.Add(Temp);
-                }
-                主窗口.AddContent(new Document("主页", sa));
-                主窗口.AddContent(new dataListView("主页", sa));
-            }
+            /*   if (read.HasRows)
+               {
+                   List<TorrentInfo> sa = new List<TorrentInfo>();
+                   while (read.Read())
+                   {
+                       TorrentInfo Temp = new TorrentInfo();
+                       Temp.Class = read.GetString(0);
+                       Temp.Catagory = read.GetString(1);
+                       Temp.Address = read.GetString(2);
+                       Temp.Name = read.GetString(3);
+                       Temp.Torrent = read.GetString(4);
+                       Temp.Magnet = read.GetString(5);
+                       Temp.Size = read.GetString(6);
+                       Temp.Date = read.GetDateTime(7);
+                       Temp.Up = read.GetString(8);
+                       Temp.Leeches = read.GetString(9);
+                       Temp.Complete = read.GetString(10);
+                       sa.Add(Temp);
+                   }
+                   主窗口.AddContent(new Document("主页", sa));
+                   主窗口.AddContent(new dataListView("主页", sa));
+               }*/
 
             #region 初始化数据库，建立表单
 
@@ -104,6 +101,15 @@ namespace NyaaAnalyse
             }
 
             #endregion 初始化数据库，建立表单
+        }
+
+        private async Task goreadAsync()
+        {
+            var conn = new SQLiteConnection(@"data source=.\Nyaa");
+            conn.Open();
+            var cmd = new SQLiteCommand(conn);
+            cmd.CommandText = "select * from NyaaDB order by Time desc limit 100000 offset 0";
+            var read = await cmd.ExecuteReaderAsync();
         }
 
         public static CookieContainer ReadCookiesFromDisk(string file)
