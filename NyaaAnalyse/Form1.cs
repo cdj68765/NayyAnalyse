@@ -51,7 +51,15 @@ namespace NyaaAnalyse
             选择搜索类型.ForeColor = System.Drawing.Color.Black;
             CheckForIllegalCrossThreadCalls = false;
             选择搜索类型.SelectedIndex = 0;
-            goreadAsync();
+            new TaskFactory().StartNew(async () =>
+            {
+                var conn = new SQLiteConnection(@"data source=.\Nyaa");
+                conn.Open();
+                var cmd = new SQLiteCommand(conn);
+                cmd.CommandText = "select * from NyaaDB order by Time desc limit 1000000 offset 0";
+                var read = await cmd.ExecuteReaderAsync();
+            });
+            
           
             // var dataAdapter= new SQLiteDataAdapter("select Catagory,Address,Name,Torrent,Magnet,Size,Time,Up,Leeches,Complete from NyaaDB order by Time desc limit 20", conn);
             // var dataAdapter = new SQLiteDataAdapter("select * from NyaaDB order by Time desc limit 20", conn);
@@ -108,7 +116,7 @@ namespace NyaaAnalyse
             var conn = new SQLiteConnection(@"data source=.\Nyaa");
             conn.Open();
             var cmd = new SQLiteCommand(conn);
-            cmd.CommandText = "select * from NyaaDB order by Time desc limit 100000 offset 0";
+            cmd.CommandText = "select * from NyaaDB order by Time desc limit 1000000 offset 0";
             var read = await cmd.ExecuteReaderAsync();
         }
 

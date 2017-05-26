@@ -7,8 +7,6 @@ namespace NyaaAnalyse
 {
     public partial class dataListView : DarkDocument
     {
-        private string v;
-        private List<TorrentInfo> sa;
 
         public dataListView()
         {

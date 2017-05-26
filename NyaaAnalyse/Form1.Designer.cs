@@ -173,7 +173,7 @@
             this.主窗口.Dock = System.Windows.Forms.DockStyle.Fill;
             this.主窗口.Location = new System.Drawing.Point(0, 47);
             this.主窗口.Name = "主窗口";
-            this.主窗口.Size = new System.Drawing.Size(1008, 648);
+            this.主窗口.Size = new System.Drawing.Size(1008, 652);
             this.主窗口.TabIndex = 9;
             // 
             // 状态显示
@@ -187,10 +187,11 @@
             this.Info3,
             this.info4,
             this.info5});
-            this.状态显示.Location = new System.Drawing.Point(0, 695);
+            this.状态显示.Location = new System.Drawing.Point(0, 699);
             this.状态显示.Name = "状态显示";
             this.状态显示.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.状态显示.Size = new System.Drawing.Size(1008, 34);
+            this.状态显示.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.状态显示.Size = new System.Drawing.Size(1008, 30);
             this.状态显示.SizingGrip = false;
             this.状态显示.TabIndex = 10;
             this.状态显示.Text = "darkStatusStrip1";
