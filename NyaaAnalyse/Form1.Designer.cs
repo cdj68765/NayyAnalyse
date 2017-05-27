@@ -202,28 +202,28 @@
             this.Info1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.Info1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.Info1.Name = "Info1";
-            this.Info1.Size = new System.Drawing.Size(45, 21);
+            this.Info1.Size = new System.Drawing.Size(45, 17);
             this.Info1.Text = "Ready";
             // 
             // Info2
             // 
             this.Info2.Name = "Info2";
-            this.Info2.Size = new System.Drawing.Size(0, 21);
+            this.Info2.Size = new System.Drawing.Size(0, 17);
             // 
             // Info3
             // 
             this.Info3.Name = "Info3";
-            this.Info3.Size = new System.Drawing.Size(0, 21);
+            this.Info3.Size = new System.Drawing.Size(0, 17);
             // 
             // info4
             // 
             this.info4.Name = "info4";
-            this.info4.Size = new System.Drawing.Size(0, 21);
+            this.info4.Size = new System.Drawing.Size(0, 17);
             // 
             // info5
             // 
             this.info5.Name = "info5";
-            this.info5.Size = new System.Drawing.Size(0, 21);
+            this.info5.Size = new System.Drawing.Size(0, 17);
             // 
             // Form1
             // 

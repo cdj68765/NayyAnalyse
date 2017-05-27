@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Document));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle25 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle26 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle27 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle46 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle47 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle48 = new BrightIdeasSoftware.HeaderStateStyle();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.olvTasks = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -45,10 +45,10 @@
             this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.darkContextMenu1 = new DarkUI.Controls.DarkContextMenu();
             this.打开网页ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.复制种子名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.下载种子ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.复制磁力ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
-            this.复制种子名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.olvTasks)).BeginInit();
             this.darkContextMenu1.SuspendLayout();
             this.SuspendLayout();
@@ -198,36 +198,8 @@
             // 
             this.打开网页ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.打开网页ToolStripMenuItem.Name = "打开网页ToolStripMenuItem";
-            this.打开网页ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.打开网页ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开网页ToolStripMenuItem.Text = "打开网页";
-            // 
-            // 下载种子ToolStripMenuItem
-            // 
-            this.下载种子ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.下载种子ToolStripMenuItem.Name = "下载种子ToolStripMenuItem";
-            this.下载种子ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.下载种子ToolStripMenuItem.Text = "下载种子";
-            // 
-            // 复制磁力ToolStripMenuItem
-            // 
-            this.复制磁力ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.复制磁力ToolStripMenuItem.Name = "复制磁力ToolStripMenuItem";
-            this.复制磁力ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.复制磁力ToolStripMenuItem.Text = "复制磁力";
-            // 
-            // headerFormatStyle1
-            // 
-            headerStateStyle25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            headerStateStyle25.ForeColor = System.Drawing.Color.White;
-            this.headerFormatStyle1.Hot = headerStateStyle25;
-            headerStateStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            headerStateStyle26.ForeColor = System.Drawing.Color.White;
-            this.headerFormatStyle1.Normal = headerStateStyle26;
-            headerStateStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            headerStateStyle27.ForeColor = System.Drawing.Color.White;
-            headerStateStyle27.FrameColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle27.FrameWidth = 2F;
-            this.headerFormatStyle1.Pressed = headerStateStyle27;
             // 
             // 复制种子名ToolStripMenuItem
             // 
@@ -235,6 +207,34 @@
             this.复制种子名ToolStripMenuItem.Name = "复制种子名ToolStripMenuItem";
             this.复制种子名ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.复制种子名ToolStripMenuItem.Text = "复制种子名";
+            // 
+            // 下载种子ToolStripMenuItem
+            // 
+            this.下载种子ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.下载种子ToolStripMenuItem.Name = "下载种子ToolStripMenuItem";
+            this.下载种子ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.下载种子ToolStripMenuItem.Text = "下载种子";
+            // 
+            // 复制磁力ToolStripMenuItem
+            // 
+            this.复制磁力ToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.复制磁力ToolStripMenuItem.Name = "复制磁力ToolStripMenuItem";
+            this.复制磁力ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.复制磁力ToolStripMenuItem.Text = "复制磁力";
+            // 
+            // headerFormatStyle1
+            // 
+            headerStateStyle46.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            headerStateStyle46.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Hot = headerStateStyle46;
+            headerStateStyle47.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            headerStateStyle47.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Normal = headerStateStyle47;
+            headerStateStyle48.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            headerStateStyle48.ForeColor = System.Drawing.Color.White;
+            headerStateStyle48.FrameColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle48.FrameWidth = 2F;
+            this.headerFormatStyle1.Pressed = headerStateStyle48;
             // 
             // Document
             // 
