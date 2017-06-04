@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Document));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle46 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle47 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle48 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.olvTasks = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -139,6 +139,8 @@
             this.olvTorrent.AspectName = "Torrent";
             this.olvTorrent.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
             this.olvTorrent.Groupable = false;
+            this.olvTorrent.MaximumWidth = 60;
+            this.olvTorrent.MinimumWidth = 60;
             this.olvTorrent.Sortable = false;
             this.olvTorrent.Text = "Torrent";
             // 
@@ -146,17 +148,23 @@
             // 
             this.olvMagnet.AspectName = "Magnet";
             this.olvMagnet.Groupable = false;
+            this.olvMagnet.MaximumWidth = 60;
+            this.olvMagnet.MinimumWidth = 60;
             this.olvMagnet.Sortable = false;
             this.olvMagnet.Text = "Magnet";
             // 
             // olvColumn5
             // 
             this.olvColumn5.AspectName = "Size";
+            this.olvColumn5.MaximumWidth = 60;
+            this.olvColumn5.MinimumWidth = 60;
             this.olvColumn5.Text = "Size";
             // 
             // olvColumn6
             // 
             this.olvColumn6.AspectName = "Date";
+            this.olvColumn6.MaximumWidth = 120;
+            this.olvColumn6.MinimumWidth = 120;
             this.olvColumn6.Text = "Date";
             this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.olvColumn6.Width = 120;
@@ -165,6 +173,8 @@
             // 
             this.olvColumn7.AspectName = "Up";
             this.olvColumn7.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.olvColumn7.MaximumWidth = 30;
+            this.olvColumn7.MinimumWidth = 30;
             this.olvColumn7.Text = "Up";
             this.olvColumn7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.olvColumn7.Width = 30;
@@ -173,12 +183,16 @@
             // 
             this.olvColumn8.AspectName = "Leeches";
             this.olvColumn8.IsEditable = false;
+            this.olvColumn8.MaximumWidth = 60;
+            this.olvColumn8.MinimumWidth = 60;
             this.olvColumn8.Text = "Leeches";
             this.olvColumn8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // olvColumn9
             // 
             this.olvColumn9.AspectName = "Complete";
+            this.olvColumn9.MaximumWidth = 60;
+            this.olvColumn9.MinimumWidth = 60;
             this.olvColumn9.Text = "Complete";
             this.olvColumn9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -224,17 +238,17 @@
             // 
             // headerFormatStyle1
             // 
-            headerStateStyle46.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            headerStateStyle46.ForeColor = System.Drawing.Color.White;
-            this.headerFormatStyle1.Hot = headerStateStyle46;
-            headerStateStyle47.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            headerStateStyle47.ForeColor = System.Drawing.Color.White;
-            this.headerFormatStyle1.Normal = headerStateStyle47;
-            headerStateStyle48.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            headerStateStyle48.ForeColor = System.Drawing.Color.White;
-            headerStateStyle48.FrameColor = System.Drawing.Color.WhiteSmoke;
-            headerStateStyle48.FrameWidth = 2F;
-            this.headerFormatStyle1.Pressed = headerStateStyle48;
+            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            headerStateStyle1.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Hot = headerStateStyle1;
+            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            headerStateStyle2.ForeColor = System.Drawing.Color.White;
+            this.headerFormatStyle1.Normal = headerStateStyle2;
+            headerStateStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            headerStateStyle3.ForeColor = System.Drawing.Color.White;
+            headerStateStyle3.FrameColor = System.Drawing.Color.WhiteSmoke;
+            headerStateStyle3.FrameWidth = 2F;
+            this.headerFormatStyle1.Pressed = headerStateStyle3;
             // 
             // Document
             // 

@@ -94,12 +94,6 @@
   <ItemGroup>
     <Compile Include="CloudFlareUtilities\ChallengeSolution.cs" />
     <Compile Include="CloudFlareUtilities\ChallengeSolver.cs" />
-    <Compile Include="DataListView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DataListView.Designer.cs">
-      <DependentUpon>DataListView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Document.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,9 +107,6 @@
     <None Include="Image\Anime.png" />
     <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
     <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
-    <EmbeddedResource Include="DataListView.resx">
-      <DependentUpon>DataListView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
     </EmbeddedResource>

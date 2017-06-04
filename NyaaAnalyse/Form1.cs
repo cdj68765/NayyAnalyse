@@ -79,7 +79,6 @@ namespace NyaaAnalyse
                     }
                     BeginInvoke(new Action(() => {
                     主窗口.AddContent(new Document("主页", sa));
-                    主窗口.AddContent(new dataListView("主页", sa));
                     }));
                 }
             });
@@ -438,8 +437,38 @@ namespace NyaaAnalyse
 
         private void 开始搜索_Click(object sender, EventArgs e)
         {
-            SQLiteConnection connection = null;
+            new TaskFactory().StartNew(async () =>
+            {
+                var conn = new SQLiteConnection(@"data source=.\Nyaa");
+                conn.Open();
+                var cmd = new SQLiteCommand(conn);
+                cmd.CommandText =@"select * from NyaaDB where Name like '%"+ 搜索字符.Text+ "%'";
 
+                var read = await cmd.ExecuteReaderAsync();
+                if (read.HasRows)
+                {
+                    List<TorrentInfo> sa = new List<TorrentInfo>();
+                    while (read.Read())
+                    {
+                        TorrentInfo Temp = new TorrentInfo();
+                        Temp.Class = read.GetString(0);
+                        Temp.Catagory = read.GetString(1);
+                        Temp.Address = read.GetString(2);
+                        Temp.Name = read.GetString(3);
+                        Temp.Torrent = read.GetString(4);
+                        Temp.Magnet = read.GetString(5);
+                        Temp.Size = read.GetString(6);
+                        Temp.Date = read.GetDateTime(7);
+                        Temp.Up = read.GetString(8);
+                        Temp.Leeches = read.GetString(9);
+                        Temp.Complete = read.GetString(10);
+                        sa.Add(Temp);
+                    }
+                    BeginInvoke(new Action(() => {
+                        主窗口.AddContent(new Document(搜索字符.Text, sa));
+                    }));
+                }
+            });
         }
     }
 }
